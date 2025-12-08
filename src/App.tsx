@@ -1,13 +1,27 @@
 import React from 'react';
-import dumb from './image/dumb.jpg'
+import Blog from './blog/blog';
+import wood from './image/wood.jpg';
+import { Route, Routes } from 'react-router-dom';
+import Pirates from './pirates';
+import Results from './pirates/results';
+
 
 function App() {
   return (
-    <div style={{textAlign: 'center'}}>
-      <h1>Sup fam</h1>
-      <img src={dumb} alt='me' style={{
-        maxHeight: '80vh'
-      }} />
+    <div style={{
+      backgroundImage: `url(${wood})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      width: '100%',
+      height: '100vh',
+    }}>
+      <Routes>
+        <Route path="/pirates" element={<Pirates />} />
+        <Route path="/pirates/results" element={<Results />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/" element={<Blog />} />
+      </Routes>
     </div>
   );
 }

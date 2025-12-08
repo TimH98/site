@@ -1,0 +1,16 @@
+.scroll-button {
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border-style: dashed;
+    color: #000;
+    background-color: #00000000;
+    border-color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-width: 2px;
+    font-family: Cursive;
+    cursor: pointer;
+}
+.scroll-button:hover {
+    background-color: #ffffff33;
+}
