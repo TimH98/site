@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Title() {
     const navigate = useNavigate();
     return (
-        <img src={eraser} onClick={() => navigate('/')} style={{
+        <img src={eraser} onClick={() => navigate('/#')} style={{
             width: '100%',
             maxWidth: '400px',
             height: 'auto',

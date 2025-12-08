@@ -5,7 +5,6 @@ import { Route, Routes } from 'react-router-dom';
 import Pirates from './pirates';
 import Results from './pirates/results';
 
-
 function App() {
   return (
     <div style={{
