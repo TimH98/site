@@ -5,6 +5,7 @@ import truePirate from '../image/truepirate.png';
 import thinIce from '../image/thinice.png';
 import chores from '../image/chores.png';
 import lies from '../image/lies.jpeg';
+import './font.css';
 
 const RESULTS = [
     {
@@ -55,22 +56,20 @@ export default function Results() {
             }}>
                 <div style={{
                     textAlign: 'center', 
-                    fontSize: '30pt', 
-                    fontWeight: 'bold', 
+                    fontSize: '40pt', 
                     paddingTop: '12%', 
-                    fontFamily: 'Cursive',
+                    fontFamily: 'PirateFont',
                 }}>The Lazy Pirate Quiz</div>
                 <div style={{
                     textAlign: 'center', 
                     fontSize: '20pt', 
-                    fontWeight: 'bold', 
                     fontFamily: 'Cursive',
                 }}>You scored {score}%</div>
                 <div style={{
                     textAlign: 'center', 
-                    fontSize: '14pt', 
-                    fontWeight: 'bold', 
-                    fontFamily: 'Cursive',
+                    fontSize: '20pt', 
+                    lineHeight: '20pt',
+                    fontFamily: 'PirateFont',
                     margin: '0 4rem',
                 }}>{result.message}</div>
                 <img src={result.image} alt="result" style={{

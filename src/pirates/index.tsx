@@ -3,6 +3,7 @@ import Title from "../components/title";
 import Question from "./question";
 import _scroll from '../image/scroll.png';
 import { useNavigate } from "react-router-dom";
+import './font.css';
 
 const QUESTIONS = [
     "Have you ever been to Greenland?",
@@ -65,21 +66,23 @@ export default function Pirates() {
             }}>
                 <div style={{
                     textAlign: 'center', 
-                    fontSize: '30pt', 
-                    fontWeight: 'bold', 
+                    fontSize: '40pt', 
                     paddingTop: '12%', 
-                    fontFamily: 'Cursive',
+                    fontFamily: 'PirateFont',
                 }}>The Lazy Pirate Quiz</div>
                 {isIntro ? (
                     <>
                     <div style={{
                         textAlign: 'center', 
-                        fontSize: '16pt',
-                        fontWeight: 'bold',
-                        fontFamily: 'Cursive',
+                        fontSize: '24pt',
+                        fontFamily: 'PirateFont',
                         margin: '0 4rem',
                     }}>Are you fit to join the Pirates who Don't Do Anything?</div>
-                    <button className='scroll-button' style={{display: 'block', margin: 'auto', marginTop: '1rem'}} onClick={() => setIsIntro(false)}>Take the Quiz</button>
+                    <button className='scroll-button' style={{
+                        display: 'block', margin: 'auto', marginTop: '0.5rem',
+                        fontSize: '20pt',
+                        lineHeight: '20pt',
+                    }} onClick={() => setIsIntro(false)}>Take the Quiz</button>
                     </>
                 ) : (
                     <Question text={QUESTIONS[questionIndex]} onAnswer={handleAnswer} />

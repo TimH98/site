@@ -1,10 +1,11 @@
 import './question.css';
+import './font.css';
 
 export default function Question({text, onAnswer}: {text: string, onAnswer: (answer: number) => void}) {
     const isSpecial = text?.includes('St. Louis');
     const isMobile = window.innerWidth < 600;
     const BUTTON_STYLE = isMobile ? {
-        padding: '0.5rem 1rem',
+        padding: '0.25rem 1.5rem',
     } : {
     };
     return (
@@ -16,13 +17,13 @@ export default function Question({text, onAnswer}: {text: string, onAnswer: (ans
             margin: '0 4rem',
         }}>
             <div style={{
-                fontSize: '16pt',
-                fontWeight: 'bold',
+                fontSize: '24pt',
+                lineHeight: '24pt',
                 paddingTop: '0.5rem',
                 paddingBottom: '0.5rem',
-                fontFamily: 'Cursive',
+                fontFamily: 'PirateFont',
                 textAlign: 'center',
-                height: isSpecial ? '56px' : '84px',
+                height: isSpecial ? '64px' : '96px',
             }}>{text}</div>
             {isSpecial ? (
                 <table>

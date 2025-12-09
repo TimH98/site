@@ -5,10 +5,11 @@
     color: #000;
     background-color: #00000000;
     border-color: #000;
-    font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    text-align: center;
     border-width: 2px;
-    font-family: Cursive;
+    font-family: PirateFont;
     cursor: pointer;
 }
 .scroll-button:hover {
