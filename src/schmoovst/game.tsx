@@ -219,7 +219,7 @@ export default function ShooterGame() {
 
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
-    const SHIP_SIZE = Math.min(WIDTH, HEIGHT) / 32;
+    const SHIP_SIZE = Math.min(WIDTH, HEIGHT) / 48;
     const BULLET_SIZE = SHIP_SIZE / 2;
     const ENEMY_SPAWN_RADIUS = 2;
     const ENEMY_SPEED = 0.2;
@@ -708,6 +708,7 @@ export default function ShooterGame() {
             height: '100%',
         }}>
             <canvas
+                style={{display: 'block'}}
                 width={WIDTH}
                 height={HEIGHT}
                 ref={canvasRef}
