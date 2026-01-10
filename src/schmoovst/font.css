@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'LogoFont';
+    /* font-weight: lighter; */
+    src: local('LogoFont'), url(../font/maketa-it-font/MaketaItNormalItalic-vn5JM.ttf) format('truetype');
+  }
+  

@@ -86,7 +86,7 @@ const LEVEL_UP_OPTIONS: LevelUpOption[] = [
 ];
 
 type Player = {
-    id: string;
+    id: number;
     x: number;
     y: number;
     vx: number;
@@ -120,7 +120,7 @@ type ButtonState = {
 
 type Bullet = {
     id: string;
-    playerId: string;
+    playerId: number;
     x: number;
     y: number;
     angle: number;
@@ -145,11 +145,19 @@ type XP = {
     y: number;
 }
 
+type PlayerStats = {
+    id: number;
+    kills: number;
+    level: number;
+    timeAlive: number;
+}
+
 type GameState = {
     players: Player[];
     bullets: Bullet[];
     enemies: Enemy[];
     xps: XP[];
+    stats: PlayerStats[];
 }
 
 let nextEnemyId = 1;
@@ -195,7 +203,7 @@ const ENEMY_UPGRADE_INTERVAL = 30 * 60; // 30 seconds
 const XP_SPEED = 10;
 const LEVEL_UP_RATE = 5;
 const PLAYER_SPEED = 0.05;
-const PLAYER_HP = 100;
+const PLAYER_HP = 1;
 const BULLET_SPREAD = 5;
 
 export default function ShooterGame() {
@@ -239,15 +247,9 @@ export default function ShooterGame() {
         {x: WIDTH - startOffset, y: HEIGHT - startOffset, angle: 315}
     ]]
 
-
-
-    // const gamepads = navigator.getGamepads();
-    // const numPlayers = Math.max(1, gamepads?.length ?? 1);
-    // console.log('gamepads', gamepads);
-
     const gameStateRef = useRef<GameState>({
         players: playerStartPositions[numPlayers].map((position, index) => ({
-            id: `${index + 1}`,
+            id: index,
             ...position,
             vx: 0,
             vy: 0,
@@ -275,6 +277,12 @@ export default function ShooterGame() {
         bullets: [],
         enemies: [],
         xps: [],
+        stats: Array.from({length: numPlayers}, (_, index) => ({
+            id: index,
+            kills: 0,
+            level: 0,
+            timeAlive: 0,
+        })),
     })
 
     useEffect(() => {
@@ -338,6 +346,7 @@ export default function ShooterGame() {
             }
         }
 
+        let gameOver = false;
         const draw = () => {
             ctx.clearRect(0, 0, WIDTH, HEIGHT);
             // Draw players
@@ -403,15 +412,6 @@ export default function ShooterGame() {
             });
             // Draw enemies
             gameStateRef.current.enemies.forEach(enemy => {
-                let nearestPlayer = gameStateRef.current.players[0];
-                let nearestDistance = Math.sqrt((nearestPlayer.x - enemy.x) ** 2 + (nearestPlayer.y - enemy.y) ** 2);
-                gameStateRef.current.players.forEach(player => {
-                    const distance = Math.sqrt((player.x - enemy.x) ** 2 + (player.y - enemy.y) ** 2);
-                    if (distance < nearestDistance) {
-                        nearestDistance = distance;
-                        nearestPlayer = player;
-                    }
-                });
                 ctx.save();
                 ctx.translate(enemy.x, enemy.y);
                 ctx.drawImage(enemyImg, -enemy.size / 2, -enemy.size / 2, enemy.size, enemy.size);
@@ -424,9 +424,69 @@ export default function ShooterGame() {
                 ctx.drawImage(xpImg, -XP_SIZE / 2, -XP_SIZE / 2, XP_SIZE, XP_SIZE);
                 ctx.restore();
             });
+
+            // Draw stats
+            if (gameOver) {
+                gameStateRef.current.stats.forEach((stat, index) => {
+                    // Stats window background
+                    ctx.save();
+                    ctx.translate(startOffset*2, startOffset*2);
+                    ctx.fillStyle = '#00000066';
+                    ctx.strokeStyle = '#ffffff99';
+                    ctx.lineWidth = SHIP_SIZE / 4;
+                    ctx.beginPath();
+                    ctx.roundRect(0, 0, WIDTH - startOffset*4, HEIGHT - startOffset*4, 10);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Game over text
+                    ctx.save();
+                    ctx.translate(WIDTH / 2, startOffset*2+48);
+                    ctx.font = '32px LogoFont';
+                    ctx.fillStyle = 'white';
+                    const textWidth = ctx.measureText('Game Over').width;
+                    ctx.fillText('Game Over', -textWidth / 2, 0);
+                    ctx.restore();
+
+                    // Stats headers
+                    ctx.save();
+                    ctx.translate(startOffset*2+200, startOffset*2+100);
+                    ctx.font = 'bold 24px sans-serif';
+                    ctx.fillStyle = 'white';
+                    ctx.fillText('Time', 0, 0);
+                    ctx.translate(150, 0);
+                    ctx.fillText('Kills', 0, 0);
+                    ctx.translate(100, 0);
+                    ctx.fillText('Level', 0, 0);
+                    ctx.restore();
+
+                    // Stats text
+                    const sortedStats = gameStateRef.current.stats.sort((a, b) => b.timeAlive - a.timeAlive);
+                    sortedStats.forEach((stat, index) => {
+                        ctx.save();
+                        ctx.translate(startOffset*2+50, startOffset*2+150+index*50);
+                        ctx.font = 'bold 24px sans-serif';
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(`Player ${stat.id + 1}`, 0, 0);
+                        ctx.translate(150, 0);
+                        ctx.fillText(`${stat.timeAlive.toFixed(1)}s`, 0, 0);
+                        ctx.translate(150, 0);
+                        ctx.fillText(`${stat.kills}`, 0, 0);
+                        ctx.translate(100, 0);
+                        ctx.fillText(`${stat.level}`, 0, 0);
+                        ctx.restore();
+                    });
+                });
+            }
         }
 
         const step = () => {
+            draw();
+            if (gameOver) {
+                animationId = requestAnimationFrame(step);
+                return;
+            }
             const gamepads = navigator.getGamepads();
             gameStateRef.current.players.forEach((player, index) => {
                 const gamepad = gamepads[index];
@@ -438,7 +498,6 @@ export default function ShooterGame() {
                             axes[i] = gamepad.axes[i];
                         }
                     }
-                    console.log('axes', axes);
                     player.vx += axes[0] * PLAYER_SPEED * player.speed;
                     player.vy += axes[1] * PLAYER_SPEED * player.speed;
 
@@ -515,6 +574,12 @@ export default function ShooterGame() {
                 if (player.hp <= 0) {
                     gameStateRef.current.players = gameStateRef.current.players.filter(p => p.id !== player.id);
                     gameStateRef.current.bullets = gameStateRef.current.bullets.filter(b => b.playerId !== player.id);
+                    gameStateRef.current.stats[player.id].level = player.level;
+                    gameStateRef.current.stats[player.id].timeAlive = animationId / 60;
+                    if (gameStateRef.current.players.length === 0) {
+                        // Game over
+                        gameOver = true;
+                    }
                 }
                 player.x += player.vx;
                 if (player.x < 0) {
@@ -531,6 +596,10 @@ export default function ShooterGame() {
                 player.vx *= 0.9;
                 player.vy *= 0.9;
             });
+            if (gameOver) {
+                animationId = requestAnimationFrame(step);
+                return;
+            }
 
             // Move bullets
             gameStateRef.current.bullets.forEach(bullet => {
@@ -552,6 +621,7 @@ export default function ShooterGame() {
                                 });
                             }
                             gameStateRef.current.enemies = gameStateRef.current.enemies.filter(e => e.id !== enemy.id);
+                            gameStateRef.current.stats[player!.id].kills++;
                             spawnEnemy(enemy.level + 1);
                         }
                         bullet.age = BULLET_LIFETIME * player!.range;
@@ -622,7 +692,7 @@ export default function ShooterGame() {
                 xp.x += Math.sin(angle * Math.PI / 180) * XP_SPEED * nearestPlayer.gravity / nearestDistance;
                 xp.y += Math.cos(angle * Math.PI / 180) * XP_SPEED * nearestPlayer.gravity / nearestDistance;
             });
-            draw();
+            // draw();
             animationId = requestAnimationFrame(step);
         };
 
