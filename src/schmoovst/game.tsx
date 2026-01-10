@@ -202,7 +202,6 @@ const ENEMY_SPAWN_INTERVAL = 60;
 const ENEMY_UPGRADE_INTERVAL = 30 * 60; // 30 seconds
 const XP_SPEED = 10;
 const LEVEL_UP_RATE = 5;
-const PLAYER_SPEED = 0.05;
 const PLAYER_HP = 100;
 const BULLET_SPREAD = 5;
 
@@ -220,9 +219,10 @@ export default function ShooterGame() {
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
     const SHIP_SIZE = Math.min(WIDTH, HEIGHT) / 48;
+    const PLAYER_SPEED = 0.0025 * SHIP_SIZE;
     const BULLET_SIZE = SHIP_SIZE / 2;
     const ENEMY_SPAWN_RADIUS = 2;
-    const ENEMY_SPEED = 0.2;
+    const ENEMY_SPEED = 0.01 * SHIP_SIZE;
     const ENEMY_KNOCKBACK = 1;
     const ENEMY_SIZE = SHIP_SIZE;
     const XP_SIZE = SHIP_SIZE / 2;
