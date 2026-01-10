@@ -203,7 +203,7 @@ const ENEMY_UPGRADE_INTERVAL = 30 * 60; // 30 seconds
 const XP_SPEED = 10;
 const LEVEL_UP_RATE = 5;
 const PLAYER_SPEED = 0.05;
-const PLAYER_HP = 1;
+const PLAYER_HP = 100;
 const BULLET_SPREAD = 5;
 
 export default function ShooterGame() {
@@ -219,7 +219,7 @@ export default function ShooterGame() {
 
     const WIDTH = window.innerWidth;
     const HEIGHT = window.innerHeight;
-    const SHIP_SIZE = WIDTH / 64;
+    const SHIP_SIZE = Math.min(WIDTH, HEIGHT) / 32;
     const BULLET_SIZE = SHIP_SIZE / 2;
     const ENEMY_SPAWN_RADIUS = 2;
     const ENEMY_SPEED = 0.2;
@@ -350,12 +350,12 @@ export default function ShooterGame() {
         const draw = () => {
             ctx.clearRect(0, 0, WIDTH, HEIGHT);
             // Draw players
-            gameStateRef.current.players.forEach((player, index) => {
+            gameStateRef.current.players.forEach((player) => {
                 // Draw player ship
                 ctx.save();
                 ctx.translate(player.x, player.y);
                 ctx.rotate(player.angle * Math.PI / 180);
-                ctx.drawImage(playerImages[index], -SHIP_SIZE / 2, -SHIP_SIZE / 2, SHIP_SIZE, SHIP_SIZE);
+                ctx.drawImage(playerImages[player.id], -SHIP_SIZE / 2, -SHIP_SIZE / 2, SHIP_SIZE, SHIP_SIZE);
                 ctx.restore();
                 // Draw HP ring
                 ctx.save();

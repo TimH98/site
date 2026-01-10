@@ -101,16 +101,16 @@ function StartGameButtons() {
     const navigate = useNavigate();
     return (
         <div>
-            <button onClick={() => {
+            <button style={{marginRight: '1rem'}} onClick={() => {
                 navigate('/schmoovst/game', { state: { numPlayers: 1 } });
             }}>1 Player</button>
-            <button onClick={() => {
+            <button style={{marginRight: '1rem'}} onClick={() => {
                 navigate('/schmoovst/game', { state: { numPlayers: 2 } });
             }}>2 Players</button>
-            <button onClick={() => {
+            <button style={{marginRight: '1rem'}} onClick={() => {
                 navigate('/schmoovst/game', { state: { numPlayers: 3 } });
             }}>3 Players</button>
-            <button onClick={() => {
+            <button style={{marginRight: '1rem'}} onClick={() => {
                 navigate('/schmoovst/game', { state: { numPlayers: 4 } });
             }}>4 Players</button>
         </div>
