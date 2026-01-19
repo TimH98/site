@@ -15,12 +15,8 @@ function Logo() {
     return <span style={{
         fontFamily: 'LogoFont',
         fontSize: '3.5rem',
-        color: '#333',
-        WebkitTextStroke: '4px #0af',
-        // backgroundColor: 'white',
-        // borderRadius: '0.5rem',
-        // padding: '1rem',
-        // textAlign: 'center',
+        color: '#fff',
+        WebkitTextStroke: '4px #04f',
     }}>Schmoovst</span>
 }
 
@@ -28,7 +24,7 @@ const UPGRADE_ICON_SIZE = '24px';
 
 function HowToPlay() {
     return (<div>
-        <b>Schmoovst</b> is a local mutliplayer, controller-based game about shooting, moving, and choosing.
+        <b>Schmoovst</b> is a competitive multiplayer twin-stick shooter about shooting, moving, and choosing.
         Schmoovsting! Kill enemies and collect XP to upgrade your ship until you're strong enough to take on your
         opponents.
         <br />
@@ -101,6 +97,9 @@ function StartGameButtons() {
     const navigate = useNavigate();
     return (
         <div>
+            Note: A controller is required to schmoovst.
+            <br/>
+            <br/>
             <button style={{marginRight: '1rem'}} onClick={() => {
                 navigate('/schmoovst/game', { state: { numPlayers: 1 } });
             }}>1 Player</button>
@@ -133,19 +132,9 @@ export default function Schmoovst() {
                 maxWidth: '600px',
                 width: '90%',
                 alignSelf: 'center',
-                padding: '1rem 0',
+                flexDirection: 'column',
             }}>
                 <Post title="How to play" content={HowToPlay()}/>
-            </div>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                maxWidth: '600px',
-                width: '90%',
-                alignSelf: 'center',
-                padding: '1rem 0',
-            }}>
                 <Post title="Start Game" content={StartGameButtons()}/>
             </div>
 

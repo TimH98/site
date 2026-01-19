@@ -11,13 +11,12 @@ export default function Post({ title, content }: { title: string, content: React
     return (
         <div style={{
             padding: '1rem',
+            marginBottom: '1rem',
             border: '4px solid #000',
             borderRadius: '2rem',
-            width: '100%',
+            width: '90%',
             backgroundImage: `url(${grid})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
+            backgroundSize: '500px',
         }}>
             <div style={{
                 fontSize: '1.5rem',
