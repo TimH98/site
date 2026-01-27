@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.bb2843f3.css",
-    "main.js": "/static/js/main.9bd4de32.js",
+    "main.js": "/static/js/main.9502b324.js",
     "static/js/453.dc86fa4a.chunk.js": "/static/js/453.dc86fa4a.chunk.js",
     "static/media/grid.jpg": "/static/media/grid.07d7f7474dd5cc898d10.jpg",
     "static/media/wood.jpg": "/static/media/wood.ea4782079d265edffefa.jpg",
@@ -14,6 +14,10 @@
     "static/media/schmoovst_promo.png": "/static/media/schmoovst_promo.70176b83709c688650ba.png",
     "static/media/lies.jpeg": "/static/media/lies.f2acdcc92197cd935867.jpeg",
     "static/media/MaketaItNormalItalic-vn5JM.ttf": "/static/media/MaketaItNormalItalic-vn5JM.07f688f508ab34b2f937.ttf",
+    "static/media/pen.png": "/static/media/pen.914a4b1b96bf0c05e82d.png",
+    "static/media/linkedin.png": "/static/media/linkedin.a95afc06831647f5fca2.png",
+    "static/media/github.png": "/static/media/github.008200bc2af970e07fa0.png",
+    "static/media/mail.png": "/static/media/mail.b27284891461aa3ac6e6.png",
     "static/media/upgrade_firerate.svg": "/static/media/upgrade_firerate.f69e877e5896b7bf4dcf956e376c6776.svg",
     "static/media/upgrade_strength.svg": "/static/media/upgrade_strength.ec3ccd2857c2aba09877cc83a0bfc5a6.svg",
     "static/media/upgrade_bulletcount.svg": "/static/media/upgrade_bulletcount.aa49face0492db0da46c6a68d4b0435d.svg",
@@ -23,11 +27,11 @@
     "static/media/upgrade_speed.svg": "/static/media/upgrade_speed.c140c2c236cc2c8556bf97ce4da7c039.svg",
     "static/media/upgrade_gravity.svg": "/static/media/upgrade_gravity.744d7ae63b6136398c9984799b3c26d3.svg",
     "main.bb2843f3.css.map": "/static/css/main.bb2843f3.css.map",
-    "main.9bd4de32.js.map": "/static/js/main.9bd4de32.js.map",
+    "main.9502b324.js.map": "/static/js/main.9502b324.js.map",
     "453.dc86fa4a.chunk.js.map": "/static/js/453.dc86fa4a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bb2843f3.css",
-    "static/js/main.9bd4de32.js"
+    "static/js/main.9502b324.js"
   ]
 }
