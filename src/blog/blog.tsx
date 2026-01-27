@@ -1,3 +1,4 @@
+import Contact from "../components/contact";
 import Title from "../components/title";
 import Post from "./post";
 import PiratePost from "./posts/pirate";
@@ -22,21 +23,23 @@ export default function Blog() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            height: '100vh',
         }}>
             <Title />
             <div style={{
                 display: 'flex',
-                justifyContent: 'center',
                 alignItems: 'center',
                 maxWidth: '600px',
                 width: '90%',
                 alignSelf: 'center',
                 flexDirection: 'column',
+                flex: 1,
             }}>
                 {POSTS.map((post) => (
                     <Post key={post.title} title={post.title} content={post.content} />
                 ))}
             </div>
+            <Contact />
         </div>
     )
 }

@@ -10,6 +10,7 @@ export default function Title() {
             height: 'auto',
             padding: '1rem 0',
             cursor: 'pointer',
+            filter: 'drop-shadow(4px 4px 5px #222)'
         }}/>
     )
 }

@@ -15,8 +15,10 @@ function Logo() {
     return <span style={{
         fontFamily: 'LogoFont',
         fontSize: '3.5rem',
+        lineHeight: '2.5rem',
+        marginBottom: '1rem',
         color: '#fff',
-        WebkitTextStroke: '4px #04f',
+        WebkitTextStroke: '4px #333',
     }}>Schmoovst</span>
 }
 
