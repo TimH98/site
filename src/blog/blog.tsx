@@ -1,17 +1,19 @@
 import Contact from "../components/contact";
 import Title from "../components/title";
-import Post from "./post";
+import Post, { PostProps } from "./post";
 import PiratePost from "./posts/pirate";
 import SchmoovstPost from "./posts/schmoovst";
 
 
-const POSTS = [
+const POSTS: PostProps[] = [
     {
         title: "Schmoovst",
+        date: "Jan 19, 2026",
         content: <SchmoovstPost />
     },
     {
         title: "The Lazy Pirate Quiz",
+        date: "Dec 8, 2025",
         content: <PiratePost />,
     }
 ]
@@ -36,7 +38,10 @@ export default function Blog() {
                 flex: 1,
             }}>
                 {POSTS.map((post) => (
-                    <Post key={post.title} title={post.title} content={post.content} />
+                    <Post
+                        key={post.title}
+                        {...post}
+                    />
                 ))}
             </div>
             <Contact />

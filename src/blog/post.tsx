@@ -1,7 +1,13 @@
 import { useState } from "react";
 import grid from '../image/grid.jpg';
 
-export default function Post({ title, content }: { title: string, content: React.ReactNode }) {
+export type PostProps = {
+    title: string
+    content: React.ReactNode
+    date?: string
+}
+
+export default function Post(props: PostProps) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const handleExpand = () => {
@@ -19,15 +25,31 @@ export default function Post({ title, content }: { title: string, content: React
             backgroundSize: '500px',
         }}>
             <div style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
                 cursor: 'pointer',
-            }} onClick={handleExpand}>{title}</div>
+                flexDirection: 'row',
+                display: 'flex'
+            }} onClick={handleExpand}>
+                <div style={{
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold',
+                }}>
+                    {props.title}
+                </div>
+                <div style={{
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                    color: '#666',
+                    textAlign: 'right',
+                    flex: 1
+                }}>
+                    {props.date}
+                </div>
+            </div>
             {isExpanded && (
                 <div style={{
                     paddingTop: '0.5rem',
                 }}>
-                    {content}
+                    {props.content}
                 </div>
             )}
         </div>
