@@ -6,6 +6,7 @@ import Pirates from './pirates';
 import Results from './pirates/results';
 import Schmoovst from './schmoovst';
 import ShooterGame from './schmoovst/game';
+import Evo from './evo';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       minHeight: '100vh',
     }}>
       <Routes>
+        <Route path="/evo" element={<Evo />} />
         <Route path="/schmoovst" element={<Schmoovst />} />
         <Route path="/schmoovst/game" element={<ShooterGame />} />
         <Route path="/pirates" element={<Pirates />} />
