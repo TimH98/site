@@ -24,9 +24,9 @@ export class Creature {
         this.config = config
         this.id = id
         if (!p1 || !p2) {
-            this.size = randInt(1, 5)
+            this.size = randInt(1, 10)
             this.moveRate = randInt(0, 100)
-            this.moveStrength = random(0, 50)
+            this.moveStrength = random(0, 10)
             this.breedEnergy = randInt(this.size*this.size, this.size*this.size*100)
             this.childEnergy = randInt(this.size*this.size, this.breedEnergy)
 
@@ -39,7 +39,7 @@ export class Creature {
             }
             this.vx = 0
             this.vy = 0
-            this.energy = 50
+            this.energy = this.breedEnergy - 1
             this.moveTimer = this.moveRate
             return
         }
@@ -80,11 +80,11 @@ export class Creature {
         this.checkBounds(world)
 
         if (this.config.sizeBasedFriction) {
-            this.vx *= (1 - 1/(this.config.scalingFriction*this.size))
-            this.vy *= (1 - 1/(this.config.scalingFriction*this.size))
+            this.vx *= (1 - 1/(this.config.movementEase*this.size))
+            this.vy *= (1 - 1/(this.config.movementEase*this.size))
         } else {
-            this.vx *= this.config.fixedFriction
-            this.vy *= this.config.fixedFriction
+            this.vx *= (1 - 1/this.config.movementEase)
+            this.vy *= (1 - 1/this.config.movementEase)
         }
 
         if (this.energy <= 0) {
@@ -127,7 +127,7 @@ export class Creature {
             })
         }
         // 2. If sufficient energy, go towards mate and early return
-        if (this.energy >= this.breedEnergy) {
+        if (this.energy >= this.breedEnergy + this.moveEnergy()) {
             var closestMate: Creature | undefined
             var mateDist = predDist
             world.pop.filter(c => {
@@ -140,7 +140,7 @@ export class Creature {
                 }
             })
             if (closestMate) {
-                if (mateDist < (this.size + closestMate.size + 2) / 2) {
+                if (mateDist < this.size + closestMate.size) {
                     const child = new Creature(this.config, world.getNextID(), this, closestMate)
                     this.energy -= this.childEnergy
                     closestMate.energy -= closestMate.childEnergy
@@ -160,7 +160,7 @@ export class Creature {
                 plantDist = d
             }
         })
-        if (closestPlant && plantDist < 2+(this.size/2)) {
+        if (closestPlant && plantDist < this.size + 2) {
             this.energy += this.config.plantEnergy
             world.removePlant(closestPlant)
         }
@@ -176,8 +176,8 @@ export class Creature {
                 meatDist = d
             }
         })
-        if (closestMeat && meatDist < (this.size + closestMeat.size)/2) {
-            this.energy += Math.max(closestMeat.energy, this.config.minMeatEnergy)
+        if (closestMeat && meatDist < this.size + closestMeat.size) {
+            this.energy += closestMeat.energy
             world.removeCreature(closestMeat)
         }
 
@@ -197,27 +197,28 @@ export class Creature {
     }
 
     private checkBounds(world: World) {
-        if (this.config.cliffs && (
+        if (this.config.cliffs) {
+            if (
                 this.x <= 0 ||
                 this.y <= 0 ||
                 this.x >= this.config.width ||
                 this.y >= this.config.height
-            )
-        ) {
-            world.removeCreature(this)
+            ) {
+                world.removeCreature(this)
+            }
             return
         }
-        this.x = clamp(this.x, 0, this.config.width)
-        this.y = clamp(this.y, 0, this.config.height)
+        this.x = clamp(this.x, this.size, this.config.width - this.size)
+        this.y = clamp(this.y, this.size, this.config.height - this.size)
 
-        if (this.x == 0) {
+        if (this.x == this.size) {
             this.vx = Math.max(this.vx, 0)
-        } else if (this.x == this.config.width) {
+        } else if (this.x == this.config.width - this.size) {
             this.vx = Math.min(this.vx, 0)
         }
-        if (this.y == 0) {
+        if (this.y == this.size) {
             this.vy = Math.max(this.vy, 0)
-        } else if (this.y == this.config.height) {
+        } else if (this.y == this.config.height - this.size) {
             this.vy = Math.min(this.vy, 0)
         }
     }

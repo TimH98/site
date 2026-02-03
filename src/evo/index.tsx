@@ -2,26 +2,24 @@
 
 import { useEffect, useRef, useState } from "react"
 import { Config, World } from "./world"
-
+import Settings from "./settings";
 
 export default function Evo() {
     const [config, setConfig] = useState({
-        runFromPredators: true,
+        plantFrequency: 1,
+        plantLimit: -1,
         plantEnergy: 100,
-        minMeatEnergy: 0,
         sightBase: 50,
         sightLog: 0,
         sightLinear: 0,
         moveEnergyBase: 0,
         moveEnergyLog: 0,
-        moveEnergyLinear: 1,
-        moveEnergyQuadratic: 0,
+        moveEnergyLinear: 0,
+        moveEnergyQuadratic: 1,
+        movementEase: 10,
         sizeBasedFriction: false,
-        fixedFriction: 0.8,
-        scalingFriction: 2,
+        runFromPredators: true,
         cliffs: false,
-        plantFrequency: 10,
-        plantLimit: -1,
         width: window.innerWidth,
         height: window.innerHeight,
     } as Config)
@@ -46,12 +44,13 @@ export default function Evo() {
         return () => {
             cancelAnimationFrame(animationId);
         };
-    }, [])
+    }, [config])
     return (
         <div style={{
             width: '100%',
             height: '100%',
         }}>
+            <Settings config={config} onSave={cfg => {setConfig(cfg)}} />
             <canvas
                 style={{display: 'block'}}
                 width={window.innerWidth}

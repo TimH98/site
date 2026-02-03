@@ -4,7 +4,6 @@ import { Plant } from "./plant"
 export type Config = {
     runFromPredators: boolean
     plantEnergy: number
-    minMeatEnergy: number
     sightBase: number
     sightLog: number
     sightLinear: number
@@ -13,8 +12,7 @@ export type Config = {
     moveEnergyLinear: number
     moveEnergyQuadratic: number
     sizeBasedFriction: boolean
-    fixedFriction: number
-    scalingFriction: number
+    movementEase: number
     cliffs: boolean
     plantFrequency: number
     plantLimit: number
@@ -35,9 +33,9 @@ export class World {
         this.plants = []
         this.nextID = 0
         this.time = 0
-        for (var i=0; i<500; i++) {
+        for (var i=0; i<100; i++) {
             this.pop.push(new Creature(config, this.nextID))
-            // this.plants.push(new Plant(config))
+            this.plants.push(new Plant(config))
             this.nextID++
         }
     }
@@ -46,6 +44,7 @@ export class World {
         this.pop.forEach(c => {
             c.step(this)
         })
+        this.time++
         if (this.time % this.config.plantFrequency == 0) {
             this.addPlant()
         }
