@@ -5,10 +5,11 @@ export type PostProps = {
     title: string
     content: React.ReactNode
     date?: string
+    autoExpand?: boolean
 }
 
 export default function Post(props: PostProps) {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(props.autoExpand ?? false);
 
     const handleExpand = () => {
         setIsExpanded(!isExpanded);

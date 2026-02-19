@@ -3,9 +3,15 @@ import Title from "../components/title";
 import Post, { PostProps } from "./post";
 import PiratePost from "./posts/pirate";
 import SchmoovstPost from "./posts/schmoovst";
+import EvoPost from "./posts/evo";
 
 
 const POSTS: PostProps[] = [
+    {
+        title: "Evo - Natural Selection simulator",
+        date: "Feb 19, 2026",
+        content: <EvoPost />
+    },
     {
         title: "Schmoovst",
         date: "Jan 19, 2026",
@@ -25,7 +31,7 @@ export default function Blog() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: '100vh',
+            minHeight: '100vh',
         }}>
             <Title />
             <div style={{
