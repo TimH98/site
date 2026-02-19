@@ -41,7 +41,8 @@ export default function Post(props: PostProps) {
                     fontWeight: 'bold',
                     color: '#666',
                     textAlign: 'right',
-                    flex: 1
+                    flex: 1,
+                    minWidth: '5rem',
                 }}>
                     {props.date}
                 </div>
