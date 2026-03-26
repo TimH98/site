@@ -37,7 +37,7 @@ export default function Blog() {
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                maxWidth: '600px',
+                maxWidth: '800px',
                 width: '90%',
                 alignSelf: 'center',
                 flexDirection: 'column',

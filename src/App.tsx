@@ -8,6 +8,7 @@ import Schmoovst from './schmoovst';
 import ShooterGame from './schmoovst/game';
 import Evo from './evo';
 import EvoAbout from './evo/about';
+import LyricCloud from './lyric-cloud/index';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       minHeight: '100vh',
     }}>
       <Routes>
+        <Route path="/lyric-cloud" element={<LyricCloud />} />
         <Route path="/evo" element={<Evo />} />
         <Route path="/evo/about" element={<EvoAbout />} />
         <Route path="/schmoovst" element={<Schmoovst />} />

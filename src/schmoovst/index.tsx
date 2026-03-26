@@ -131,7 +131,7 @@ export default function Schmoovst() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                maxWidth: '600px',
+                maxWidth: '800px',
                 width: '90%',
                 alignSelf: 'center',
                 flexDirection: 'column',
