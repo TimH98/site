@@ -4,7 +4,15 @@ import songData from "./titles.json";
 import Title from "../components/title";
 import Post from "../blog/post";
 import clockImage from './image/clock.png';
+import grid from '../image/grid.jpg';
 import './font.css';
+
+const NUM_SONGS = 100;
+
+function chooseSongs(): string[] {
+    // Random list of 100 songs from our dataset
+    return Object.keys(songData).sort(() => Math.random() - 0.5).slice(0, 100);
+}
 
 function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: number, onTimeout: () => void}) {
     const [time, setTime] = useState(timeLimit);
@@ -64,8 +72,7 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
 }
 
 function CloudImage({song, style}: {song: string, style?: React.CSSProperties}) {
-    // const image = require(`./cloud/${song.replace("/", " ")}.png`);
-    const image = `${process.env.PUBLIC_URL}/lyric-clouds/${song.replace("/", " ").replace("?", "_").replace("!", "_")}.png`;
+    const image = `${process.env.PUBLIC_URL}/lyric-clouds/${song.replace("/", "_").replace("?", "_").replace("!", "_")}.png`;
 
     return (
         <img src={image} style={style}/>
@@ -87,8 +94,8 @@ function Answers({songs, correct}: {songs: string[], correct: boolean[]}) {
                     fontSize: '16pt',
                     border: correct[i] ? '4px solid #0d3' : '4px solid #f00',
                     margin: '1rem 0 0 0',
-                    background: "#000",
-                    color: "#fff",
+                    padding: '0.5rem',
+                    borderRadius: '0.5rem',
                 }}>
                     <CloudImage song={song} style={{width: '100%', alignContent: 'center'}}/>
                     {song}
@@ -101,24 +108,65 @@ function Answers({songs, correct}: {songs: string[], correct: boolean[]}) {
 function About() {
     return (
         <>
-            <p>You have 1 minute to name as many song titles as you can!</p>
+            <p>How many songs can you name in 60 seconds?</p>
             <ul>
-                <li>You will be presented with a word cloud containing lyrics from a song</li>
-                <li>Correctly enter the song's title to score a point and move to the next question</li>
-                <li>You have unlimited skips! If you don't know one, move on quickly! <i>(Hint: You can use <b>Tab</b> to quickly select the Skip button)</i></li>
-                <li>Each song in this quiz has spent at least 30 weeks on the Billboard Top 100</li>
-                <li>If you find 1 minute too frantic, you can increase the time limit below</li>
+                <li>Each round you're shown a word cloud built from a song's lyrics - Enter the song's title to score a point and move to the next question</li>
+                <li>If you're stuck, you can skip a song and move on to the next one</li>
+                <li>Every song in this quiz has spent at least 30 weeks on the Billboard Hot 100. Some are recent hits, others are classics.</li>
+                <li>If you find 1 minute too frantic, you can adjust the time limit below</li>
             </ul>
         </>
     )
 }
 
-function chooseSongs(): string[] {
-    // Random list of 100 songs from our dataset
-    return Object.keys(songData).sort(() => Math.random() - 0.5).slice(0, 100);
+function PreGame(
+    {
+        songs,
+        timeLimit,
+        setStarted,
+        setCorrect,
+        setTimeLimit
+    }: {
+        songs: string[],
+        timeLimit: number,
+        setStarted: (started: boolean) => void,
+        setCorrect: (correct: boolean[]) => void,
+        setTimeLimit: (timeLimit: number) => void,
+    }
+) {
+    return (
+            <div style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                width: '800px',
+                maxWidth: '90%',
+            }}>
+                <Title />
+                <Post title="Lyric Clouds" content={About()} autoExpand />
+                <Post title="Settings" content={
+                    <table style={{width: '100%'}}>
+                        <tbody>
+                            <tr>
+                                <td style={{textAlign: 'right', padding: '0.5rem', fontWeight: 'bold'}}>Time Limit (seconds)</td>
+                                <td style={{padding: '0.5rem'}}><input type="number" value={timeLimit} onChange={e => setTimeLimit(parseInt(e.target.value))}></input></td>
+                            </tr>
+                        </tbody>
+                    </table>} />
+                <button onClick={() => {
+                    setStarted(true);
+                    let initCorrect: boolean[] = [];
+                    songs.forEach(() => {
+                        initCorrect.push(false);
+                    });
+                    setCorrect(initCorrect);
+                }} style={{
+                    fontSize: '16pt',
+                }}>Start Game</button>
+            </div>
+    )
 }
-
-const NUM_SONGS = 100;
 
 export default function LyricCloud() {
     const [started, setStarted] = useState(false);
@@ -164,52 +212,21 @@ export default function LyricCloud() {
     return (
         <div style={{width: '100vw', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
             {/* Pre-game */}
-            <div style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                width: '800px',
-                maxWidth: '90%',
-                visibility: !started && !finished ? 'visible' : 'collapse',
-            }}>
-                <Title />
-                <Post title="Lyric Cloud Game" content={About()} autoExpand />
-                <Post title="Settings" content={
-                    <table style={{width: '100%'}}>
-                        <tbody>
-                            <tr>
-                                <td style={{textAlign: 'right', padding: '0.5rem', fontWeight: 'bold'}}>Time Limit (seconds)</td>
-                                <td style={{padding: '0.5rem'}}><input type="number" value={timeLimit} onChange={e => setTimeLimit(parseInt(e.target.value))}></input></td>
-                            </tr>
-                        </tbody>
-                    </table>} />
-                <button onClick={() => {
-                    setStarted(true);
-                    let initCorrect: boolean[] = [];
-                    songs.forEach(() => {
-                        initCorrect.push(false);
-                    });
-                    setCorrect(initCorrect);
-                }} style={{
-                    fontSize: '16pt',
-                }}>Start Game</button>
-            </div>
+            {!started && !finished && <PreGame songs={songs} timeLimit={timeLimit} setStarted={setStarted} setCorrect={setCorrect} setTimeLimit={setTimeLimit}/>}
             {/* Game */}
-            <div
+            {started && <div
                 style={{
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     alignSelf: 'center',
                     flexDirection: 'column',
-                    visibility: started ? 'visible' : 'collapse',
                 }}
             >
                 <Timer started={started} timeLimit={timeLimit} onTimeout={onTimeout}/>
                 <CloudImage song={songs[songIdx%NUM_SONGS]} style={{
-                    background: '#000',
-                    border: '2px solid #000',
+                    background: '#fff',
+                    // border: '4px solid #000',
                     borderRadius: '1rem',
                     padding: '1rem',
                     margin: '1rem',
@@ -228,9 +245,9 @@ export default function LyricCloud() {
                         alignSelf: 'center',
                     }}>Skip</button>
                 </span>
-            </div>
+            </div>}
             {/* Post-game */}
-            <div style={{
+            {finished && <div style={{
                 alignItems: 'center',
                 justifyContent: 'center',
                 display: 'flex',
@@ -239,37 +256,50 @@ export default function LyricCloud() {
                 fontWeight: 'bold',
                 maxWidth: '600px',
                 width: '90%',
-                visibility: finished ? 'visible' : 'collapse',
             }}>
                 <Title />
-                Your Score: {correct.filter(c => c).length}
                 <div style={{
-                    display: 'flex',
-                    flexDirection: 'row'
+                    border: '2px solid #000',
+                    borderRadius: '0.5rem',
+                    backgroundImage: `url(${grid})`,
+                    backgroundSize: '500px',
+                    textAlign: 'center',
+                    padding: '1rem',
+                    margin: '1rem',
+                    width: '90%',
+                    maxWidth: '800px',
+                    alignItems: 'center',
                 }}>
-                <button onClick={() => {
-                    setSongs(chooseSongs());
-                    setFinished(false);
-                    setStarted(true);
-                    setSongIdx(0);
-                    setCorrect(correct.map(() => false));
-                }} style={{
-                    margin: '0.5rem',
-                    fontSize: '18pt',
-                }}>Play Again</button>
-                <button onClick={() => {
-                    setSongs(chooseSongs());
-                    setFinished(false);
-                    setStarted(false);
-                    setSongIdx(0);
-                    setCorrect(correct.map(() => false));
-                }} style={{
-                    margin: '0.5rem 0.5rem 0.5rem 0',
-                    fontSize: '18pt',
-                }}>Change Settings</button>
+                    Your Score: {correct.filter(c => c).length}
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                    }}>
+                        <button onClick={() => {
+                            setSongs(chooseSongs());
+                            setFinished(false);
+                            setStarted(true);
+                            setSongIdx(0);
+                            setCorrect(correct.map(() => false));
+                        }} style={{
+                            margin: '0.5rem',
+                            fontSize: '14pt',
+                        }}>Play Again</button>
+                        <button onClick={() => {
+                            setSongs(chooseSongs());
+                            setFinished(false);
+                            setStarted(false);
+                            setSongIdx(0);
+                            setCorrect(correct.map(() => false));
+                        }} style={{
+                            margin: '0.5rem 0.5rem 0.5rem 0',
+                            fontSize: '14pt',
+                        }}>Change Settings</button>
+                    </div>
                 </div>
-                <Post title="Answers" content={<Answers songs={songs.slice(0, songIdx+1)} correct={correct} />} />
-            </div>
+                <Post title="Answers ↓" content={<Answers songs={songs.slice(0, songIdx+1)} correct={correct} />}/>
+            </div>}
         </div>
     )
 }
