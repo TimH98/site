@@ -258,6 +258,7 @@ export default function LyricCloud() {
                     alignItems: 'center',
                     alignSelf: 'center',
                     flexDirection: 'column',
+                    maxWidth: '100vw',
                 }}
             >
                 <HeaderRow started={started} timeLimit={timeLimit} onTimeout={onTimeout} song={songs[songIdx%NUM_SONGS]}/>
