@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useRef } from "react";
 import { useEffect, useState } from "react";
-import songData from "./titles.json";
+import songData from "./song-data.json";
 import Title from "../components/title";
 import Post from "../blog/post";
 import clockImage from './image/clock.png';
@@ -71,6 +71,42 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
     )
 }
 
+function PopularYears({song}: {song: string}) {
+    const years: number[] = (songData as Record<string, {"titles": string[], "years": number[]}>)[song]["years"] || [];
+    return (
+        <div style={{
+            backgroundColor: '#fff',
+            alignContent: 'center',
+            border: '4px solid #ddd',
+            borderRadius: '0.5rem',
+            margin: '1rem 1rem 0 1rem',
+            padding: '0 1rem',
+            fontSize: '16pt',
+            fontWeight: 'bold',
+        }}>
+            Popular in {years.join(", ")}
+        </div>
+    )
+} 
+
+function HeaderRow({started, timeLimit, onTimeout, song}: {
+    started: boolean,
+    timeLimit: number,
+    onTimeout: () => void,
+    song: string
+}) {
+    return (
+        <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            maxWidth: '100vw',
+        }}>
+            <Timer started={started} timeLimit={timeLimit} onTimeout={onTimeout}/>
+            <PopularYears song={song}/>
+        </div>
+    )
+}
+
 function CloudImage({song, style}: {song: string, style?: React.CSSProperties}) {
     const image = `${process.env.PUBLIC_URL}/lyric-clouds/${song.replace("/", "_").replace("?", "_").replace("!", "_")}.png`;
 
@@ -96,6 +132,7 @@ function Answers({songs, correct}: {songs: string[], correct: boolean[]}) {
                     margin: '1rem 0 0 0',
                     padding: '0.5rem',
                     borderRadius: '0.5rem',
+                    background: "#fff"
                 }}>
                     <CloudImage song={song} style={{width: '100%', alignContent: 'center'}}/>
                     {song}
@@ -183,7 +220,7 @@ export default function LyricCloud() {
     const onAnswerChange = (event: ChangeEvent<HTMLInputElement>) => {
         const answer = event.target.value;
         const songName = songs[songIdx%NUM_SONGS];
-        const titles: string[] = (songData as Record<string, string[]>)[songName] || [];
+        const titles: string[] = (songData as Record<string, {"titles": string[], "years": number[]}>)[songName]["titles"] || [];
         // Check if the answer is correct
         if (titles.includes(answer.toLowerCase())) {
             setCorrect(prev => {
@@ -223,17 +260,22 @@ export default function LyricCloud() {
                     flexDirection: 'column',
                 }}
             >
-                <Timer started={started} timeLimit={timeLimit} onTimeout={onTimeout}/>
+                <HeaderRow started={started} timeLimit={timeLimit} onTimeout={onTimeout} song={songs[songIdx%NUM_SONGS]}/>
                 <CloudImage song={songs[songIdx%NUM_SONGS]} style={{
                     background: '#fff',
-                    // border: '4px solid #000',
                     borderRadius: '1rem',
+                    border: '4px solid #ddd',
                     padding: '1rem',
                     margin: '1rem',
                     maxWidth: '90vw',
                     maxHeight: '60vh',
                 }}/>
-                <span style={{display: 'flex', background: "#fff", borderRadius: '0.5rem'}}>
+                <span style={{
+                    display: 'flex',
+                    background: "#fff",
+                    borderRadius: '0.5rem',
+                    border: '4px solid #ddd'
+                }}>
                     <input onChange={onAnswerChange} ref={inputRef} style={{
                         fontSize: '24pt',
                         margin: '0.5rem',

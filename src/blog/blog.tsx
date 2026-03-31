@@ -4,9 +4,15 @@ import Post, { PostProps } from "./post";
 import PiratePost from "./posts/pirate";
 import SchmoovstPost from "./posts/schmoovst";
 import EvoPost from "./posts/evo";
+import LyricCloudPost from "./posts/lyric-cloud";
 
 
 const POSTS: PostProps[] = [
+    {
+        title: "Lyric Clouds",
+        date: "Mar 27, 2026",
+        content: <LyricCloudPost />
+    },
     {
         title: "Evo - Natural Selection simulator",
         date: "Feb 19, 2026",
