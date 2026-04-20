@@ -1,5 +1,7 @@
 import { useState } from "react";
 import grid from '../image/grid.jpg';
+import arrowDown from '../image/arrow-down.png';
+import arrowUp from '../image/arrow-up.png';
 
 export type PostProps = {
     title: string
@@ -63,7 +65,23 @@ export default function Post(props: PostProps) {
                             borderRadius: '0.5rem',
                             display: 'inline-block',
                         }} >
-                            <span style={{fontWeight: 'bold', cursor: 'pointer'}} onClick={() => setIsDevNotesExpanded(!isDevNotesExpanded)}>Dev Notes {isDevNotesExpanded ? "⏶" : "⏷"}</span>
+                            <span
+                                style={{
+                                    fontWeight: 'bold',
+                                    cursor: 'pointer',
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '0.25rem',
+                                }}
+                                onClick={() => setIsDevNotesExpanded(!isDevNotesExpanded)}
+                            >
+                                Dev Notes
+                                {isDevNotesExpanded ? (
+                                    <img src={arrowUp} style={{height: '1em', width: 'auto'}} />
+                                ) : (
+                                    <img src={arrowDown} style={{height: '1em', width: 'auto'}} />
+                                )}
+                            </span>
                             <br />
                             {isDevNotesExpanded && <div style={{
                                 padding: '0.5rem',
