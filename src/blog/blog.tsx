@@ -1,32 +1,43 @@
 import Contact from "../components/contact";
 import Title from "../components/title";
 import Post, { PostProps } from "./post";
-import PiratePost from "./posts/pirate";
-import SchmoovstPost from "./posts/schmoovst";
-import EvoPost from "./posts/evo";
-import LyricCloudPost from "./posts/lyric-cloud";
+import PiratePost, { PirateDevNotes } from "./posts/pirate";
+import SchmoovstPost, { SchmoovstDevNotes } from "./posts/schmoovst";
+import EvoPost, { EvoDevNotes } from "./posts/evo";
+import LyricCloudPost, { LyricCloudDevNotes } from "./posts/lyric-cloud";
+import DevNotesPost, { DevNotesDevNotes } from "./posts/dev-notes";
 
 
 const POSTS: PostProps[] = [
     {
+        title: "Dev Notes",
+        date: "Apr 20, 2026",
+        content: <DevNotesPost />,
+        devNotes: <DevNotesDevNotes />
+    },
+    {
         title: "Lyric Clouds",
         date: "Mar 27, 2026",
-        content: <LyricCloudPost />
+        content: <LyricCloudPost />,
+        devNotes: <LyricCloudDevNotes />
     },
     {
         title: "Evo - Natural Selection simulator",
         date: "Feb 19, 2026",
-        content: <EvoPost />
+        content: <EvoPost />,
+        devNotes: <EvoDevNotes />
     },
     {
         title: "Schmoovst",
         date: "Jan 19, 2026",
-        content: <SchmoovstPost />
+        content: <SchmoovstPost />,
+        devNotes: <SchmoovstDevNotes />
     },
     {
         title: "The Lazy Pirate Quiz",
         date: "Dec 8, 2025",
         content: <PiratePost />,
+        devNotes: <PirateDevNotes />
     }
 ]
 

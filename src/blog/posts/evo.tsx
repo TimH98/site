@@ -46,9 +46,20 @@ export default function EvoPost() {
             </table>
             <br />
             Evo includes several options to tweak the environment the creatures live in, such as how much energy plants give, how far creatures can see, and how much energy it costs to move. In the settings panel, you can hover over each option to see what it does.
+        </div>
+    )
+}
+
+export function EvoDevNotes() {
+    return (
+        <div>
+            This is a reimplementation of an ancient project of mine, dating back to at least 2021. The <a href="https://github.com/TimH98/NaturalSelection">initial implementation</a> was in <a href="https://processing.org/">Processing</a>, a language purpose-built to make drawing visualizations to the screen easy.
             <br />
             <br />
-            The source code for Evo can be found <a href="https://github.com/TimH98/site/tree/main/src/evo" style={{fontWeight: 'bold'}}>here</a>, on my GitHub.
+            Unfortunately, the old project wasn't exactly easy to spin up and explore, so I figured my new site (and my new proficiency in HTML5) is a good opportunity to make it more accessible. I also added a settings window - the old project included all of these in a config file, which is sort of a pain to modify. There were a couple other minor changes too, like adding outlines to everything to make it easier to look at.
+            <br />
+            <br />
+            The simulation is pretty simple as far as predator-prey dynamics. I considered sprucing it up with attributes like poison, flying, ranged attacks, etc but each of those has so many inherent variables that the settings pane would explode in size. 
         </div>
     )
 }

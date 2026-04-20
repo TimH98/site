@@ -6,10 +6,12 @@ export type PostProps = {
     content: React.ReactNode
     date?: string
     autoExpand?: boolean
+    devNotes?: React.ReactNode
 }
 
 export default function Post(props: PostProps) {
     const [isExpanded, setIsExpanded] = useState(props.autoExpand ?? false);
+    const [isDevNotesExpanded, setIsDevNotesExpanded] = useState(false);
 
     const handleExpand = () => {
         setIsExpanded(!isExpanded);
@@ -52,6 +54,23 @@ export default function Post(props: PostProps) {
                     paddingTop: '0.5rem',
                 }}>
                     {props.content}
+                    {props.devNotes && (
+                        <div style={{
+                            marginTop: '1rem',
+                            padding: '0.5rem',
+                            background: '#97cde788',
+                            borderRadius: '0.5rem',
+                            display: 'inline-block',
+                        }} >
+                            <span style={{fontWeight: 'bold', cursor: 'pointer'}} onClick={() => setIsDevNotesExpanded(!isDevNotesExpanded)}>Dev Notes {isDevNotesExpanded ? "⏶" : "⏷"}</span>
+                            <br />
+                            {isDevNotesExpanded && <div style={{
+                                padding: '0.5rem',
+                            }}>
+                                {props.devNotes}
+                            </div>}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
