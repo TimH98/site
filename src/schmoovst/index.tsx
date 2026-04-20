@@ -137,7 +137,7 @@ export default function Schmoovst() {
                 flexDirection: 'column',
             }}>
                 <Post title="How to play" content={HowToPlay()}/>
-                <Post title="Start Game" content={StartGameButtons()}/>
+                <Post title="Start Game" content={StartGameButtons()} autoExpand />
             </div>
 
         </div>

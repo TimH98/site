@@ -14,6 +14,7 @@ export default function Post(props: PostProps) {
     const [isDevNotesExpanded, setIsDevNotesExpanded] = useState(false);
 
     const handleExpand = () => {
+        if (props.autoExpand) return;
         setIsExpanded(!isExpanded);
     }
 
@@ -28,7 +29,7 @@ export default function Post(props: PostProps) {
             backgroundSize: '500px',
         }}>
             <div style={{
-                cursor: 'pointer',
+                cursor: props.autoExpand ? undefined : 'pointer',
                 flexDirection: 'row',
                 display: 'flex'
             }} onClick={handleExpand}>
