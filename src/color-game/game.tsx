@@ -36,9 +36,6 @@ export default function ColorGame() {
         } else {
             idx = (choices.indexOf(current) + 1) % choices.length;
         }
-        console.log(current)
-        console.log(choices)
-        console.log(idx)
         setCurrent(choices[idx])
         var idxT;
         if (colorMatch) {
@@ -72,10 +69,11 @@ export default function ColorGame() {
             alignItems: "center"
         }}>
             {displayColorNames && <h1 style={{
-                fontSize: "20vw"
+                fontSize: "min(20vw, 20vh)"
             }}>{currentText}</h1>}
             {displayArrows > 0 && <h1 style={{
-                fontSize: "20vw"
+                fontSize: "min(20vw, 20vh)",
+                marginBottom: 0
             }}>{currentArrow}</h1>}
         </div>
     )

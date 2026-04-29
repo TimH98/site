@@ -29,7 +29,7 @@ export const COLORS: Record<string, any> = {
     },
     "Purple": {
         "color": "#B0B",
-        "textColor": "black"
+        "textColor": "white"
     },
     "Pink": {
         "color": "#f8f",
