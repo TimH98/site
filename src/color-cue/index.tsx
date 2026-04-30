@@ -27,13 +27,13 @@ function ColorCard({colorName, onDelete}: {colorName: string, onDelete: (colorNa
             margin: "0.5rem",
             display: "flex",
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "center",
+            background: "#f8f8f8",
         }}>
             <CircleIcon style={{color: colorData.color, paddingLeft: "0.5rem"}}/>
             <div style={{
                 padding: "0.5rem",
                 fontWeight: "bold",
-                background: "#fff9",
                 minWidth: "4rem",
             }}>
                 {colorName}

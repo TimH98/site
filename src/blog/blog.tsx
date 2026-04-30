@@ -6,9 +6,16 @@ import SchmoovstPost, { SchmoovstDevNotes } from "./posts/schmoovst";
 import EvoPost, { EvoDevNotes } from "./posts/evo";
 import LyricCloudPost, { LyricCloudDevNotes } from "./posts/lyric-cloud";
 import DevNotesPost, { DevNotesDevNotes } from "./posts/dev-notes";
+import ColorCuePost, { ColorCueDevNotes } from "./posts/color-cue";
 
 
 const POSTS: PostProps[] = [
+    {
+        title: "Color Cue Reaction Trainer",
+        date: "Apr 30, 2026",
+        content: <ColorCuePost />,
+        devNotes: <ColorCueDevNotes />
+    },
     {
         title: "Dev Notes",
         date: "Apr 20, 2026",
