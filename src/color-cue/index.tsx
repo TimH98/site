@@ -7,11 +7,11 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from "react-router-dom";
 
-function SwitchSetting({label, startChecked, onChange}: {label: string, startChecked?: boolean, onChange: (event: React.ChangeEvent<HTMLInputElement>) => void}) {
+function SwitchSetting({label, value, onChange}: {label: string, value: boolean, onChange: (event: React.ChangeEvent<HTMLInputElement>) => void}) {
     return (
         <div style={{display: "flex", flexDirection: "row"}}>
             <p style={{flexGrow: 1, margin: "0.5rem"}}>{label}</p>
-            <Switch onChange={onChange} defaultChecked={startChecked} />
+            <Switch onChange={onChange} checked={value} />
         </div>
     )
 }
@@ -46,14 +46,16 @@ function ColorCard({colorName, onDelete}: {colorName: string, onDelete: (colorNa
     )
 }
 
-export default function ColorGameSetup() {
+export default function ColorCueSetup() {
     const navigate = useNavigate();
     const [displayColors, setDisplayColors] = useState(true)
     const [displayColorNames, setDisplayColorNames] = useState(true)
     const [colorMatch, setColorMatch] = useState(true)
     const [shuffle, setShuffle] = useState(true)
     const [displayArrows, setDisplayArrows] = useState(0)
-    const [timeInterval, setTimeInterval] = useState(3.0)
+    const [randomTimeInterval, setRandomTimeInterval] = useState(false)
+    const [minTimeInterval, setMinTimeInterval] = useState(3.0)
+    const [maxTimeInterval, setMaxTimeInterval] = useState(3.0)
     const [colors, setColors] = useState(["Red", "Green", "Blue", "Yellow"])
     const [addColorMenuOpen, setAddColorMenuOpen] = useState(false)
     const [addColorAnchorEl, setAddColorAnchorEl] = useState<null | HTMLElement>(null)
@@ -73,8 +75,18 @@ export default function ColorGameSetup() {
     const handleDisplayArrowsChange = () => {
         setDisplayArrows((displayArrows + 1) % 4);
     };
+    const handleRandomTimeIntervalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRandomTimeInterval(event.target.checked);
+    };
     const handleTimeIntervalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTimeInterval(+event.target.value);
+        setMinTimeInterval(+event.target.value);
+        setMaxTimeInterval(+event.target.value);
+    };
+     const handleMinTimeIntervalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setMinTimeInterval(+event.target.value);
+    };
+    const handleMaxTimeIntervalChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setMaxTimeInterval(+event.target.value);
     };
     const handleDeleteColor = (colorName: string) => {
         setColors(colors.filter(c => c !== colorName))
@@ -96,13 +108,14 @@ export default function ColorGameSetup() {
     }
 
     const onStart = () => {
-        navigate('/color-game/game', { state: {
+        navigate('/color-cue/start', { state: {
             displayColors,
             displayColorNames,
             colorMatch,
             shuffle,
             displayArrows,
-            timeInterval,
+            minTimeInterval,
+            maxTimeInterval,
             colors
         } })
     }
@@ -125,25 +138,36 @@ export default function ColorGameSetup() {
             background: "#eee",
             minHeight: "100vh",
         }}>
-            <h1 style={{margin: "0", textAlign: "center"}}>Color Game</h1>
+            <h1 style={{margin: "0", textAlign: "center"}}>Color{"\u00A0"}Cue Reaction{"\u00A0"}Trainer</h1>
             <Paper elevation={1} style={{width: "100%", maxWidth: "400px", display: "flex", flexDirection: "column"}}>
-                <SwitchSetting label="Display Colors" onChange={handleDisplayColorsChange} startChecked />
+                <SwitchSetting label="Display Colors" value={displayColors} onChange={handleDisplayColorsChange} />
                 <Divider />
-                <SwitchSetting label="Display Color Names" onChange={handleDisplayColorNamesChange} startChecked />
+                <SwitchSetting label="Display Color Names" value={displayColorNames} onChange={handleDisplayColorNamesChange} />
                 <Divider />
-                <SwitchSetting label="Color Names Match Screen Color" onChange={handleColorMatchChange} startChecked />
-                <Divider />
-                <SwitchSetting label="Shuffle Colors" onChange={handleShuffleColorsChange} startChecked />
+                {displayColors && displayColorNames && (
+                    <>
+                        <SwitchSetting label="Color Names Match Display Color" value={colorMatch} onChange={handleColorMatchChange} />
+                        <Divider />
+                    </>
+                )}
+                <SwitchSetting label="Shuffle Colors" value={shuffle} onChange={handleShuffleColorsChange} />
                 <Divider />
                 <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
                     <p style={{flexGrow: 1, margin: "0.5rem"}}>Display Arrows</p>
                     <Button size="small" variant="contained" style={{margin: "0.5rem"}} onClick={handleDisplayArrowsChange}>{displayArrowsText(displayArrows)}</Button>
                 </div>
                 <Divider />
-                <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
-                    <p style={{flexGrow: 1, margin: "0.5rem"}}>Time Interval (s)</p>
+                <SwitchSetting label="Random Time Interval" value={randomTimeInterval} onChange={handleRandomTimeIntervalChange} />
+                <Divider />
+                {randomTimeInterval || <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+                    <p style={{flexGrow: 1, margin: "0.5rem"}}>Time Interval (seconds)</p>
                     <TextField type="number" defaultValue={3} style={{margin: "0.5rem", minWidth: "5rem", flex: 0}} size="small" onChange={handleTimeIntervalChange} />
-                </div>
+                </div>}
+                {randomTimeInterval && <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+                    <p style={{flexGrow: 1, margin: "0.5rem"}}>Time Interval (seconds)</p>
+                    <TextField type="number" label="Min" defaultValue={3} style={{margin: "0.5rem", minWidth: "5rem", flex: 0}} size="small" onChange={handleMinTimeIntervalChange} />
+                    <TextField type="number" label="Max" defaultValue={3} style={{margin: "0.5rem", minWidth: "5rem", flex: 0}} size="small" onChange={handleMaxTimeIntervalChange} />
+                </div>}
             </Paper>
             <Paper elevation={1} style={{width: "100%", maxWidth: "400px", display: "flex", flexDirection: "column", padding: "0.5rem 0"}}>
                 <h1 style={{margin: "0", textAlign: "center"}}>Colors</h1>

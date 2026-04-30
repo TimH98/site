@@ -3,14 +3,15 @@ import { useLocation } from "react-router-dom"
 import { COLORS } from "./colors"
 
 
-export default function ColorGame() {
+export default function ColorCue() {
     let {
         displayColors,
         displayColorNames,
         colorMatch,
         shuffle,
         displayArrows,
-        timeInterval,
+        minTimeInterval,
+        maxTimeInterval,
         colors,
     } = useLocation().state as {
         displayColors: boolean,
@@ -18,7 +19,8 @@ export default function ColorGame() {
         colorMatch: boolean,
         shuffle: boolean,
         displayArrows: number,
-        timeInterval: number,
+        minTimeInterval: number,
+        maxTimeInterval: number,
         colors: string[]
     }
     const currentRef = useRef({current: "", currentText: ""})
@@ -54,27 +56,35 @@ export default function ColorGame() {
 
     useEffect(() => {
         changeColor(currentRef.current.current, currentRef.current.currentText)
-        const interval = setInterval(() => {
+
+        const loop = () => {
             changeColor(currentRef.current.current, currentRef.current.currentText)
-        }, timeInterval * 1000)
-        return () => clearInterval(interval)
+            const timeInterval = Math.random() * (maxTimeInterval - minTimeInterval) + minTimeInterval
+            setTimeout(loop, timeInterval * 1000)
+        }
+        const timeInterval = Math.random() * (maxTimeInterval - minTimeInterval) + minTimeInterval
+        let timeout = setTimeout(loop, timeInterval * 1000)
+        return () => clearTimeout(timeout)
     }, [])
     return (
         <div style={{
             background: displayColors ? COLORS[current]?.color : "#fff",
             color: displayColors ? COLORS[current]?.textColor : "#000",
-            minHeight: "100vh",
+            height: "100vh",
             display: "flex",
             flexDirection: "column",
             alignItems: "center"
         }}>
+            <div style={{flexGrow: 1}} />
             {displayColorNames && <h1 style={{
-                fontSize: "min(20vw, 20vh)"
+                fontSize: "min(20vw, 20vh)",
+                margin: "1rem",
             }}>{currentText}</h1>}
             {displayArrows > 0 && <h1 style={{
                 fontSize: "min(20vw, 20vh)",
-                marginBottom: 0
+                margin: "1rem",
             }}>{currentArrow}</h1>}
+            <div style={{flexGrow: 1}} />
         </div>
     )
 }
