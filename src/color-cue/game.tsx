@@ -23,7 +23,7 @@ export default function ColorCue() {
         maxTimeInterval: number,
         colors: string[]
     }
-    const currentRef = useRef({ current: "", currentText: "" })
+    const currentRef = useRef({ idx: -1 })
     const [current, setCurrent] = useState("")
     const [currentText, setCurrentText] = useState("")
     const [currentArrow, setCurrentArrow] = useState("")
@@ -31,41 +31,49 @@ export default function ColorCue() {
     const arrows: string = displayArrows === 1 ? "←→" : displayArrows === 2 ? "↑↓" : "↑↓←→"
 
     useEffect(() => {
-        const changeColor = (current: string, currentText: string) => {
-            const choices = colors.filter(c => c !== current)
+        const changeColor = (currentIdx: number) => {
             var idx;
             if (shuffle) {
-                idx = Math.floor(Math.random() * choices.length);
+                idx = Math.floor(Math.random() * colors.length);
             } else {
-                idx = (choices.indexOf(current) + 1) % choices.length;
+                idx = (currentIdx + 1) % colors.length;
             }
-            setCurrent(choices[idx])
+            setCurrent(colors[idx])
             var idxT;
             if (colorMatch) {
                 idxT = idx;
             } else {
-                const choicesT = colors.filter(c => c !== currentText)
-                idxT = Math.floor(Math.random() * choicesT.length);
+                idxT = Math.floor(Math.random() * colors.length);
             }
-            setCurrentText(choices[idxT]);
+            setCurrentText(colors[idxT]);
             if (displayArrows) {
                 const idxA = Math.floor(Math.random() * arrows.length);
                 setCurrentArrow(arrows[idxA])
             }
-            currentRef.current = { current: choices[idx], currentText: choices[idxT] }
+            currentRef.current = { idx }
         }
 
-        changeColor(currentRef.current.current, currentRef.current.currentText)
-
+        const timeoutRef = { id: 0 as any };
         const loop = () => {
-            changeColor(currentRef.current.current, currentRef.current.currentText)
+            changeColor(currentRef.current.idx)
             const timeInterval = Math.random() * (maxTimeInterval - minTimeInterval) + minTimeInterval
-            setTimeout(loop, timeInterval * 1000)
+            var audio = document.createElement("audio");
+            audio.src = require("./beep.mp3");
+            audio.loop = false;
+            audio.play()
+            timeoutRef.id = setTimeout(loop, timeInterval * 1000)
         }
-        const timeInterval = Math.random() * (maxTimeInterval - minTimeInterval) + minTimeInterval
-        let timeout = setTimeout(loop, timeInterval * 1000)
-        return () => clearTimeout(timeout)
-    }, [arrows, colorMatch, colors, displayArrows, shuffle, minTimeInterval, maxTimeInterval])
+        timeoutRef.id = setTimeout(loop, 0)
+        return () => clearTimeout(timeoutRef.id)
+    }, [
+        arrows,
+        colorMatch,
+        colors,
+        displayArrows,
+        shuffle,
+        minTimeInterval,
+        maxTimeInterval
+    ])
 
     return (
         <div style={{
