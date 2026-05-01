@@ -77,9 +77,9 @@ export default function Post(props: PostProps) {
                             >
                                 Dev Notes
                                 {isDevNotesExpanded ? (
-                                    <img src={arrowUp} style={{height: '1em', width: 'auto'}} />
+                                    <img src={arrowUp} style={{height: '1em', width: 'auto'}} alt="Close" />
                                 ) : (
-                                    <img src={arrowDown} style={{height: '1em', width: 'auto'}} />
+                                    <img src={arrowDown} style={{height: '1em', width: 'auto'}} alt="Expand" />
                                 )}
                             </span>
                             <br />

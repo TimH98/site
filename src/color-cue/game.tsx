@@ -23,38 +23,38 @@ export default function ColorCue() {
         maxTimeInterval: number,
         colors: string[]
     }
-    const currentRef = useRef({current: "", currentText: ""})
+    const currentRef = useRef({ current: "", currentText: "" })
     const [current, setCurrent] = useState("")
     const [currentText, setCurrentText] = useState("")
     const [currentArrow, setCurrentArrow] = useState("")
 
     const arrows: string = displayArrows === 1 ? "←→" : displayArrows === 2 ? "↑↓" : "↑↓←→"
 
-    const changeColor = (current: string, currentText: string) => {
-        const choices = colors.filter(c => c !== current)
-        var idx;
-        if (shuffle) {
-            idx = Math.floor(Math.random() * choices.length);
-        } else {
-            idx = (choices.indexOf(current) + 1) % choices.length;
-        }
-        setCurrent(choices[idx])
-        var idxT;
-        if (colorMatch) {
-            idxT = idx;
-        } else {
-            const choicesT = colors.filter(c => c !== currentText)
-            idxT = Math.floor(Math.random() * choicesT.length);
-        }
-        setCurrentText(choices[idxT]);
-        if (displayArrows) {
-            const idxA = Math.floor(Math.random() * arrows.length);
-            setCurrentArrow(arrows[idxA])
-        }
-        currentRef.current = {current: choices[idx], currentText: choices[idxT]}
-    }
-
     useEffect(() => {
+        const changeColor = (current: string, currentText: string) => {
+            const choices = colors.filter(c => c !== current)
+            var idx;
+            if (shuffle) {
+                idx = Math.floor(Math.random() * choices.length);
+            } else {
+                idx = (choices.indexOf(current) + 1) % choices.length;
+            }
+            setCurrent(choices[idx])
+            var idxT;
+            if (colorMatch) {
+                idxT = idx;
+            } else {
+                const choicesT = colors.filter(c => c !== currentText)
+                idxT = Math.floor(Math.random() * choicesT.length);
+            }
+            setCurrentText(choices[idxT]);
+            if (displayArrows) {
+                const idxA = Math.floor(Math.random() * arrows.length);
+                setCurrentArrow(arrows[idxA])
+            }
+            currentRef.current = { current: choices[idx], currentText: choices[idxT] }
+        }
+
         changeColor(currentRef.current.current, currentRef.current.currentText)
 
         const loop = () => {
@@ -65,7 +65,8 @@ export default function ColorCue() {
         const timeInterval = Math.random() * (maxTimeInterval - minTimeInterval) + minTimeInterval
         let timeout = setTimeout(loop, timeInterval * 1000)
         return () => clearTimeout(timeout)
-    }, [])
+    }, [arrows, colorMatch, colors, displayArrows, shuffle, minTimeInterval, maxTimeInterval])
+
     return (
         <div style={{
             background: displayColors ? COLORS[current]?.color : "#fff",
@@ -75,7 +76,7 @@ export default function ColorCue() {
             flexDirection: "column",
             alignItems: "center"
         }}>
-            <div style={{flexGrow: 1}} />
+            <div style={{ flexGrow: 1 }} />
             {displayColorNames && <h1 style={{
                 fontSize: "min(20vw, 20vh)",
                 margin: "1rem",
@@ -84,7 +85,7 @@ export default function ColorCue() {
                 fontSize: "min(20vw, 20vh)",
                 margin: "1rem",
             }}>{currentArrow}</h1>}
-            <div style={{flexGrow: 1}} />
+            <div style={{ flexGrow: 1 }} />
         </div>
     )
 }

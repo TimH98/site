@@ -10,7 +10,7 @@ export default function LyricCloudPost() {
             <a href="/#/lyric-cloud" style={{fontWeight: 'bold'}}>Read more here and try it out!</a>
             <br />
             <br />
-            <img src={image} style={{width: '100%'}}/>
+            <img src={image} style={{width: '100%'}} alt="Example word cloud for All Star by Smash Mouth" />
         </div>
     )
 }

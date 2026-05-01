@@ -27,8 +27,8 @@ export class Creature {
             this.size = randInt(1, 10)
             this.moveRate = randInt(0, 100)
             this.moveStrength = random(0, 10)
-            this.breedEnergy = randInt(this.size*this.size, this.size*this.size*100)
-            this.childEnergy = randInt(this.size*this.size, this.breedEnergy)
+            this.breedEnergy = randInt(this.size * this.size, this.size * this.size * 100)
+            this.childEnergy = randInt(this.size * this.size, this.breedEnergy)
 
             if (config.cliffs) {
                 this.x = random(config.width / 10, 9 * config.width / 10)
@@ -46,13 +46,13 @@ export class Creature {
         // Initialize based on parents' traits
         this.moveRate = randInt(p1.moveRate, p2.moveRate) + randGauss(0, 20)
         this.moveTimer = 1;
-        this.moveStrength = Math.max(0.1, 
+        this.moveStrength = Math.max(0.1,
             random(p1.moveStrength, p2.moveStrength) + randGauss(0, 0.2)
         )
-        this.size = Math.max(1, 
+        this.size = Math.max(1,
             randInt(p1.size, p2.size) + randInt(-2, 2)
         )
-        this.breedEnergy = Math.max(this.size, 
+        this.breedEnergy = Math.max(this.size,
             Math.floor(
                 random(p1.breedEnergy, p2.breedEnergy) + randGauss(0, 20)
             )
@@ -80,11 +80,11 @@ export class Creature {
         this.checkBounds(world)
 
         if (this.config.sizeBasedFriction) {
-            this.vx *= (1 - 1/(this.config.movementEase*this.size))
-            this.vy *= (1 - 1/(this.config.movementEase*this.size))
+            this.vx *= (1 - 1 / (this.config.movementEase * this.size))
+            this.vy *= (1 - 1 / (this.config.movementEase * this.size))
         } else {
-            this.vx *= (1 - 1/this.config.movementEase)
-            this.vy *= (1 - 1/this.config.movementEase)
+            this.vx *= (1 - 1 / this.config.movementEase)
+            this.vy *= (1 - 1 / this.config.movementEase)
         }
 
         if (this.energy <= 0) {
@@ -97,7 +97,7 @@ export class Creature {
         if (this.moveTimer > 0) {
             return
         }
-        var dir: number = Math.atan((ty-this.y)/(tx-this.x));
+        var dir: number = Math.atan((ty - this.y) / (tx - this.x));
         if (tx < this.x) {
             dir += Math.PI
         }
@@ -131,7 +131,7 @@ export class Creature {
             var closestMate: Creature | undefined
             var mateDist = predDist
             world.pop.filter(c => {
-                return c !== this && this.sizeCompare(c) == 0 && c.energy >= c.breedEnergy
+                return c !== this && this.sizeCompare(c) === 0 && c.energy >= c.breedEnergy
             }).forEach(c => {
                 const d = dist(this, c)
                 if (d < mateDist) {
@@ -168,7 +168,7 @@ export class Creature {
         var closestMeat: Creature | undefined
         var meatDist = predDist
         world.pop.filter(c => {
-            return c !== this && this.sizeCompare(c) == -1
+            return c !== this && this.sizeCompare(c) === -1
         }).forEach(c => {
             const d = dist(this, c)
             if (d < meatDist) {
@@ -211,14 +211,14 @@ export class Creature {
         this.x = clamp(this.x, this.size, this.config.width - this.size)
         this.y = clamp(this.y, this.size, this.config.height - this.size)
 
-        if (this.x == this.size) {
+        if (this.x === this.size) {
             this.vx = Math.max(this.vx, 0)
-        } else if (this.x == this.config.width - this.size) {
+        } else if (this.x === this.config.width - this.size) {
             this.vx = Math.min(this.vx, 0)
         }
-        if (this.y == this.size) {
+        if (this.y === this.size) {
             this.vy = Math.max(this.vy, 0)
-        } else if (this.y == this.config.height - this.size) {
+        } else if (this.y === this.config.height - this.size) {
             this.vy = Math.min(this.vy, 0)
         }
     }
@@ -247,18 +247,18 @@ export class Creature {
             1  if c is significantly larger
             0  if c is roughly the same size
         */
-       if (this.size > c.size * 2) {
-        return -1
-       }
-       if (c.size > this.size * 2) {
-        return 1
-       }
-       return 0
+        if (this.size > c.size * 2) {
+            return -1
+        }
+        if (c.size > this.size * 2) {
+            return 1
+        }
+        return 0
     }
 
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, 2*Math.PI)
+        ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI)
         if (this.energy >= this.breedEnergy) {
             ctx.fillStyle = "#f00"
         } else {

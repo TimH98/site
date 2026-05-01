@@ -14,7 +14,7 @@ function chooseSongs(): string[] {
     return Object.keys(songData).sort(() => Math.random() - 0.5).slice(0, 100);
 }
 
-function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: number, onTimeout: () => void}) {
+function Timer({ started, timeLimit, onTimeout }: { started: boolean, timeLimit: number, onTimeout: () => void }) {
     const [time, setTime] = useState(timeLimit);
     useEffect(() => {
         if (!started) {
@@ -28,7 +28,7 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
             clearInterval(interval);
         }
     }, [started, timeLimit]);
-    
+
     useEffect(() => {
         if (time <= 0) {
             onTimeout();
@@ -44,10 +44,10 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
             alignItems: 'center',
             padding: '1rem 0 0 0',
         }}>
-            <img src={clockImage} style={{width: '150px'}} />
+            <img src={clockImage} style={{ width: '150px' }} alt="" />
             <p style={{
                 position: 'absolute',
-                color: '#f00', 
+                color: '#f00',
                 fontFamily: 'SevenSegment',
                 fontSize: '36pt',
                 lineHeight: '68pt',
@@ -58,7 +58,7 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
             </p>
             <p style={{
                 position: 'absolute',
-                color: '#f004', 
+                color: '#f004',
                 fontFamily: 'SevenSegment',
                 fontSize: '36pt',
                 lineHeight: '68pt',
@@ -71,8 +71,8 @@ function Timer({started, timeLimit, onTimeout}: {started: boolean, timeLimit: nu
     )
 }
 
-function PopularYears({song}: {song: string}) {
-    const years: number[] = (songData as Record<string, {"titles": string[], "years": number[]}>)[song]["years"] || [];
+function PopularYears({ song }: { song: string }) {
+    const years: number[] = (songData as Record<string, { "titles": string[], "years": number[] }>)[song]["years"] || [];
     return (
         <div style={{
             backgroundColor: '#fff',
@@ -87,9 +87,9 @@ function PopularYears({song}: {song: string}) {
             Popular in {years.join(", ")}
         </div>
     )
-} 
+}
 
-function HeaderRow({started, timeLimit, onTimeout, song}: {
+function HeaderRow({ started, timeLimit, onTimeout, song }: {
     started: boolean,
     timeLimit: number,
     onTimeout: () => void,
@@ -101,21 +101,21 @@ function HeaderRow({started, timeLimit, onTimeout, song}: {
             flexDirection: 'row',
             maxWidth: '100vw',
         }}>
-            <Timer started={started} timeLimit={timeLimit} onTimeout={onTimeout}/>
-            <PopularYears song={song}/>
+            <Timer started={started} timeLimit={timeLimit} onTimeout={onTimeout} />
+            <PopularYears song={song} />
         </div>
     )
 }
 
-function CloudImage({song, style}: {song: string, style?: React.CSSProperties}) {
+function CloudImage({ song, style }: { song: string, style?: React.CSSProperties }) {
     const image = `${process.env.PUBLIC_URL}/lyric-clouds/${song.replace("/", "_").replace("?", "_").replace("!", "_")}.png`;
 
     return (
-        <img src={image} style={style}/>
+        <img src={image} style={style} alt="Word cloud" />
     )
 }
 
-function Answers({songs, correct}: {songs: string[], correct: boolean[]}) {
+function Answers({ songs, correct }: { songs: string[], correct: boolean[] }) {
     return (
         <div style={{
             display: 'flex',
@@ -134,7 +134,7 @@ function Answers({songs, correct}: {songs: string[], correct: boolean[]}) {
                     borderRadius: '0.5rem',
                     background: "#fff"
                 }}>
-                    <CloudImage song={song} style={{width: '100%', alignContent: 'center'}}/>
+                    <CloudImage song={song} style={{ width: '100%', alignContent: 'center' }} />
                     {song}
                 </div>
             ))}
@@ -172,36 +172,36 @@ function PreGame(
     }
 ) {
     return (
-            <div style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                width: '800px',
-                maxWidth: '90%',
-            }}>
-                <Title />
-                <Post title="Lyric Clouds" content={About()} autoExpand />
-                <Post title="Settings" content={
-                    <table style={{width: '100%'}}>
-                        <tbody>
-                            <tr>
-                                <td style={{textAlign: 'right', padding: '0.5rem', fontWeight: 'bold'}}>Time Limit (seconds)</td>
-                                <td style={{padding: '0.5rem'}}><input type="number" value={timeLimit} onChange={e => setTimeLimit(parseInt(e.target.value))}></input></td>
-                            </tr>
-                        </tbody>
-                    </table>} />
-                <button onClick={() => {
-                    setStarted(true);
-                    let initCorrect: boolean[] = [];
-                    songs.forEach(() => {
-                        initCorrect.push(false);
-                    });
-                    setCorrect(initCorrect);
-                }} style={{
-                    fontSize: '16pt',
-                }}>Start Game</button>
-            </div>
+        <div style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '800px',
+            maxWidth: '90%',
+        }}>
+            <Title />
+            <Post title="Lyric Clouds" content={About()} autoExpand />
+            <Post title="Settings" content={
+                <table style={{ width: '100%' }}>
+                    <tbody>
+                        <tr>
+                            <td style={{ textAlign: 'right', padding: '0.5rem', fontWeight: 'bold' }}>Time Limit (seconds)</td>
+                            <td style={{ padding: '0.5rem' }}><input type="number" value={timeLimit} onChange={e => setTimeLimit(parseInt(e.target.value))}></input></td>
+                        </tr>
+                    </tbody>
+                </table>} />
+            <button onClick={() => {
+                setStarted(true);
+                let initCorrect: boolean[] = [];
+                songs.forEach(() => {
+                    initCorrect.push(false);
+                });
+                setCorrect(initCorrect);
+            }} style={{
+                fontSize: '16pt',
+            }}>Start Game</button>
+        </div>
     )
 }
 
@@ -219,13 +219,13 @@ export default function LyricCloud() {
 
     const onAnswerChange = (event: ChangeEvent<HTMLInputElement>) => {
         const answer = event.target.value;
-        const songName = songs[songIdx%NUM_SONGS];
-        const titles: string[] = (songData as Record<string, {"titles": string[], "years": number[]}>)[songName]["titles"] || [];
+        const songName = songs[songIdx % NUM_SONGS];
+        const titles: string[] = (songData as Record<string, { "titles": string[], "years": number[] }>)[songName]["titles"] || [];
         // Check if the answer is correct
         if (titles.includes(answer.toLowerCase())) {
             setCorrect(prev => {
                 const newCorrect = [...prev];
-                newCorrect[songIdx%NUM_SONGS] = true;
+                newCorrect[songIdx % NUM_SONGS] = true;
                 return newCorrect;
             });
             setSongIdx(idx => idx + 1);
@@ -247,9 +247,9 @@ export default function LyricCloud() {
     }
 
     return (
-        <div style={{width: '100vw', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
+        <div style={{ width: '100vw', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
             {/* Pre-game */}
-            {!started && !finished && <PreGame songs={songs} timeLimit={timeLimit} setStarted={setStarted} setCorrect={setCorrect} setTimeLimit={setTimeLimit}/>}
+            {!started && !finished && <PreGame songs={songs} timeLimit={timeLimit} setStarted={setStarted} setCorrect={setCorrect} setTimeLimit={setTimeLimit} />}
             {/* Game */}
             {started && <div
                 style={{
@@ -261,8 +261,8 @@ export default function LyricCloud() {
                     maxWidth: '100vw',
                 }}
             >
-                <HeaderRow started={started} timeLimit={timeLimit} onTimeout={onTimeout} song={songs[songIdx%NUM_SONGS]}/>
-                <CloudImage song={songs[songIdx%NUM_SONGS]} style={{
+                <HeaderRow started={started} timeLimit={timeLimit} onTimeout={onTimeout} song={songs[songIdx % NUM_SONGS]} />
+                <CloudImage song={songs[songIdx % NUM_SONGS]} style={{
                     background: '#fff',
                     borderRadius: '1rem',
                     border: '4px solid #ddd',
@@ -270,7 +270,7 @@ export default function LyricCloud() {
                     margin: '1rem',
                     maxWidth: '90vw',
                     maxHeight: '60vh',
-                }}/>
+                }} />
                 <span style={{
                     display: 'flex',
                     background: "#fff",
@@ -281,7 +281,7 @@ export default function LyricCloud() {
                         fontSize: '24pt',
                         margin: '0.5rem',
                         maxWidth: '70vw',
-                    }}/>
+                    }} />
                     <button onClick={onSkip} style={{
                         fontSize: '24pt',
                         margin: '0.5rem 0.5rem 0.5rem 0',
@@ -341,7 +341,7 @@ export default function LyricCloud() {
                         }}>Change Settings</button>
                     </div>
                 </div>
-                <Post title="Answers ↓" content={<Answers songs={songs.slice(0, songIdx+1)} correct={correct} />}/>
+                <Post title="Answers ↓" content={<Answers songs={songs.slice(0, songIdx + 1)} correct={correct} />} />
             </div>}
         </div>
     )

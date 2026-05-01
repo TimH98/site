@@ -232,19 +232,19 @@ export default function ShooterGame() {
     // playerStartPositions[i][j] = where player j starts in an i-player game
     // i is 1-indexed, j is 0-indexed
     const playerStartPositions = [[], [
-        {x: WIDTH / 2, y: HEIGHT / 2, angle: 0}
+        { x: WIDTH / 2, y: HEIGHT / 2, angle: 0 }
     ], [
-        {x: startOffset, y: startOffset, angle: 135},
-        {x: WIDTH - startOffset, y: HEIGHT - startOffset, angle: 315}
-    ], [ 
-        {x: startOffset, y: startOffset, angle: 135},
-        {x: WIDTH - startOffset, y: startOffset, angle: 225},
-        {x: WIDTH / 2, y: HEIGHT - startOffset, angle: 0}
+        { x: startOffset, y: startOffset, angle: 135 },
+        { x: WIDTH - startOffset, y: HEIGHT - startOffset, angle: 315 }
     ], [
-        {x: startOffset, y: startOffset, angle: 135},
-        {x: WIDTH - startOffset, y: startOffset, angle: 225},
-        {x: startOffset, y: HEIGHT - startOffset, angle: 45},
-        {x: WIDTH - startOffset, y: HEIGHT - startOffset, angle: 315}
+        { x: startOffset, y: startOffset, angle: 135 },
+        { x: WIDTH - startOffset, y: startOffset, angle: 225 },
+        { x: WIDTH / 2, y: HEIGHT - startOffset, angle: 0 }
+    ], [
+        { x: startOffset, y: startOffset, angle: 135 },
+        { x: WIDTH - startOffset, y: startOffset, angle: 225 },
+        { x: startOffset, y: HEIGHT - startOffset, angle: 45 },
+        { x: WIDTH - startOffset, y: HEIGHT - startOffset, angle: 315 }
     ]]
 
     const gameStateRef = useRef<GameState>({
@@ -277,7 +277,7 @@ export default function ShooterGame() {
         bullets: [],
         enemies: [],
         xps: [],
-        stats: Array.from({length: numPlayers}, (_, index) => ({
+        stats: Array.from({ length: numPlayers }, (_, index) => ({
             id: index,
             kills: 0,
             level: 0,
@@ -291,7 +291,7 @@ export default function ShooterGame() {
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
-        
+
         const p1Img = new Image();
         p1Img.src = p1Image;
         const p2Img = new Image();
@@ -327,7 +327,7 @@ export default function ShooterGame() {
             let speed = 1;
             for (let i = 1; i < level; i++) {
                 const choice = Math.random();
-                if (choice < 1/2) {
+                if (choice < 1 / 2) {
                     hp++;
                 } else {
                     speed++;
@@ -372,7 +372,7 @@ export default function ShooterGame() {
                 ctx.strokeStyle = '#33ffff99';
                 ctx.lineWidth = SHIP_SIZE / 4;
                 ctx.beginPath();
-                ctx.arc(0, 0, SHIP_SIZE*0.75, 0, 2 * Math.PI * player.xp / (player.level * LEVEL_UP_RATE));
+                ctx.arc(0, 0, SHIP_SIZE * 0.75, 0, 2 * Math.PI * player.xp / (player.level * LEVEL_UP_RATE));
                 ctx.stroke();
                 ctx.restore();
                 // Draw level up menu attached to player
@@ -430,19 +430,19 @@ export default function ShooterGame() {
                 gameStateRef.current.stats.forEach((stat, index) => {
                     // Stats window background
                     ctx.save();
-                    ctx.translate(startOffset*2, startOffset*2);
+                    ctx.translate(startOffset * 2, startOffset * 2);
                     ctx.fillStyle = '#00000066';
                     ctx.strokeStyle = '#ffffff99';
                     ctx.lineWidth = SHIP_SIZE / 4;
                     ctx.beginPath();
-                    ctx.roundRect(0, 0, WIDTH - startOffset*4, HEIGHT - startOffset*4, 10);
+                    ctx.roundRect(0, 0, WIDTH - startOffset * 4, HEIGHT - startOffset * 4, 10);
                     ctx.fill();
                     ctx.stroke();
                     ctx.restore();
 
                     // Game over text
                     ctx.save();
-                    ctx.translate(WIDTH / 2, startOffset*2+48);
+                    ctx.translate(WIDTH / 2, startOffset * 2 + 48);
                     ctx.font = '32px LogoFont';
                     ctx.fillStyle = 'white';
                     const textWidth = ctx.measureText('Game Over').width;
@@ -451,7 +451,7 @@ export default function ShooterGame() {
 
                     // Stats headers
                     ctx.save();
-                    ctx.translate(startOffset*2+200, startOffset*2+100);
+                    ctx.translate(startOffset * 2 + 200, startOffset * 2 + 100);
                     ctx.font = 'bold 24px sans-serif';
                     ctx.fillStyle = 'white';
                     ctx.fillText('Time', 0, 0);
@@ -465,7 +465,7 @@ export default function ShooterGame() {
                     const sortedStats = gameStateRef.current.stats.sort((a, b) => b.timeAlive - a.timeAlive);
                     sortedStats.forEach((stat, index) => {
                         ctx.save();
-                        ctx.translate(startOffset*2+50, startOffset*2+150+index*50);
+                        ctx.translate(startOffset * 2 + 50, startOffset * 2 + 150 + index * 50);
                         ctx.font = 'bold 24px sans-serif';
                         ctx.fillStyle = 'white';
                         ctx.fillText(`Player ${stat.id + 1}`, 0, 0);
@@ -513,18 +513,6 @@ export default function ShooterGame() {
                         player.angle = (player.angle + delta + 360) % 360;
                     }
 
-                    // Pick up XP
-                    gameStateRef.current.xps.forEach(xp => {
-                        if (Math.sqrt((player.x - xp.x) ** 2 + (player.y - xp.y) ** 2) < XP_SIZE / 2) {
-                            // Player picks up XP
-                            gameStateRef.current.xps = gameStateRef.current.xps.filter(x => x.id !== xp.id);
-                            player.xp++;
-                            if (player.xp >= player.level * LEVEL_UP_RATE && !player.levelUpMenuOpen) {
-                                openLevelUpMenu(player);
-                            }
-                        }
-                    });
-
                     // Level up menu navigation
                     const buttonState: ButtonState = {
                         leftBumper: gamepad.buttons[4].pressed,
@@ -553,12 +541,23 @@ export default function ShooterGame() {
                     }
                     player.buttonState = buttonState;
                 }
+                // Pick up XP
+                gameStateRef.current.xps.forEach(xp => {
+                    if (Math.sqrt((player.x - xp.x) ** 2 + (player.y - xp.y) ** 2) < SHIP_SIZE / 2) {
+                        // Player picks up XP
+                        gameStateRef.current.xps = gameStateRef.current.xps.filter(x => x.id !== xp.id);
+                        player.xp++;
+                        if (player.xp >= player.level * LEVEL_UP_RATE && !player.levelUpMenuOpen) {
+                            openLevelUpMenu(player);
+                        }
+                    }
+                });
 
                 // Shooting
                 const shootInterval = Math.floor(SHOOT_INTERVAL / player.fireRate);
                 if (animationId % shootInterval === 0) {
                     for (let i = 0; i < player.bulletCount; i++) {
-                        const angleDelta = (2*i - player.bulletCount + 1) * BULLET_SPREAD;
+                        const angleDelta = (2 * i - player.bulletCount + 1) * BULLET_SPREAD;
                         gameStateRef.current.bullets.push({
                             id: `${nextBulletId++}`,
                             playerId: player.id,
@@ -700,7 +699,7 @@ export default function ShooterGame() {
         return () => {
             cancelAnimationFrame(animationId);
         };
-    }, []);
+    }, [BULLET_SIZE, ENEMY_SIZE, ENEMY_SPEED, HEIGHT, PLAYER_SPEED, SHIP_SIZE, WIDTH, XP_SIZE, startOffset]);
     return (
         <div style={{
             backgroundColor: '#333',
@@ -708,7 +707,7 @@ export default function ShooterGame() {
             height: '100%',
         }}>
             <canvas
-                style={{display: 'block'}}
+                style={{ display: 'block' }}
                 width={WIDTH}
                 height={HEIGHT}
                 ref={canvasRef}

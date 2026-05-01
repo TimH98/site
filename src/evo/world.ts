@@ -33,7 +33,7 @@ export class World {
         this.plants = []
         this.nextID = 0
         this.time = 0
-        for (var i=0; i<100; i++) {
+        for (var i = 0; i < 100; i++) {
             this.pop.push(new Creature(config, this.nextID))
             this.plants.push(new Plant(config))
             this.nextID++
@@ -45,7 +45,7 @@ export class World {
             c.step(this)
         })
         this.time++
-        if (this.time % this.config.plantFrequency == 0) {
+        if (this.time % this.config.plantFrequency === 0) {
             this.addPlant()
         }
     }

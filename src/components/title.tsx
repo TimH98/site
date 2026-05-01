@@ -11,6 +11,6 @@ export default function Title() {
             padding: '1rem 0',
             cursor: 'pointer',
             filter: 'drop-shadow(4px 4px 5px #222)'
-        }}/>
+        }} alt="Tim's Workspace logo" />
     )
 }

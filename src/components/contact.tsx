@@ -16,7 +16,7 @@ export default function Contact() {
                 padding: '1rem 0',
                 filter: 'drop-shadow(4px 4px 3px #222)',
                 zIndex: -1
-            }}/>
+            }} alt="" />
             <div style={{
                 position: 'absolute',
                 width: '100%',
@@ -41,19 +41,19 @@ export default function Contact() {
                         marginLeft: '10%'
                     }} onClick={() => {
                         window.location.href = 'mailto:timhaysonline@gmail.com'
-                    }}/>
+                    }} alt="Email" />
                     <img src={github} style={{
                         cursor: 'pointer',
                         marginLeft: '10%'
                     }} onClick={() => {
                         window.location.href = 'https://github.com/TimH98'
-                    }}/>
+                    }} alt="GitHub" />
                     <img src={linkedin} style={{
                         cursor: 'pointer',
                         marginLeft: '10%'
                     }} onClick={() => {
                         window.location.href = 'https://www.linkedin.com/in/tim-hays-002961157/'
-                    }}/>
+                    }} alt="LinkedIn" />
                 </div>
             </div>
         </div>
