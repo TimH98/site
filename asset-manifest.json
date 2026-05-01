@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.643ef878.css",
-    "main.js": "/static/js/main.66de1893.js",
+    "main.js": "/static/js/main.d00511bb.js",
     "static/js/453.6bc5c761.chunk.js": "/static/js/453.6bc5c761.chunk.js",
     "static/media/grid.jpg": "/static/media/grid.07d7f7474dd5cc898d10.jpg",
     "static/media/wood.jpg": "/static/media/wood.ea4782079d265edffefa.jpg",
@@ -19,6 +19,7 @@
     "static/media/github.png": "/static/media/github.008200bc2af970e07fa0.png",
     "static/media/mail.png": "/static/media/mail.b27284891461aa3ac6e6.png",
     "static/media/7segment.ttf": "/static/media/7segment.ab7bdc071e815b32ee31.ttf",
+    "static/media/beep.mp3": "/static/media/beep.73f7a8b90cfccc3d95d0.mp3",
     "static/media/upgrade_firerate.svg": "/static/media/upgrade_firerate.f69e877e5896b7bf4dcf956e376c6776.svg",
     "static/media/upgrade_strength.svg": "/static/media/upgrade_strength.ec3ccd2857c2aba09877cc83a0bfc5a6.svg",
     "static/media/upgrade_bulletcount.svg": "/static/media/upgrade_bulletcount.aa49face0492db0da46c6a68d4b0435d.svg",
@@ -28,11 +29,11 @@
     "static/media/upgrade_speed.svg": "/static/media/upgrade_speed.c140c2c236cc2c8556bf97ce4da7c039.svg",
     "static/media/upgrade_gravity.svg": "/static/media/upgrade_gravity.744d7ae63b6136398c9984799b3c26d3.svg",
     "main.643ef878.css.map": "/static/css/main.643ef878.css.map",
-    "main.66de1893.js.map": "/static/js/main.66de1893.js.map",
+    "main.d00511bb.js.map": "/static/js/main.d00511bb.js.map",
     "453.6bc5c761.chunk.js.map": "/static/js/453.6bc5c761.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.643ef878.css",
-    "static/js/main.66de1893.js"
+    "static/js/main.d00511bb.js"
   ]
 }
