@@ -11,6 +11,7 @@ import EvoAbout from './evo/about';
 import LyricCloud from './lyric-cloud/index';
 import ColorCueSetup from './color-cue/index';
 import ColorCue from './color-cue/game';
+import About from './about';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       minHeight: '100vh',
     }}>
       <Routes>
+        <Route path="/about" element={<About />} />
         <Route path="/color-cue" element={<ColorCueSetup />} />
         <Route path="/color-cue/start" element={<ColorCue />} />
         <Route path="/lyric-cloud" element={<LyricCloud />} />
