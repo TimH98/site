@@ -9,6 +9,7 @@ export type PostProps = {
     date?: string
     autoExpand?: boolean
     devNotes?: React.ReactNode
+    tags?: string[]
 }
 
 export default function Post(props: PostProps) {
@@ -77,9 +78,9 @@ export default function Post(props: PostProps) {
                             >
                                 Dev Notes
                                 {isDevNotesExpanded ? (
-                                    <img src={arrowUp} style={{height: '1em', width: 'auto'}} alt="Close" />
+                                    <img src={arrowUp} style={{ height: '1em', width: 'auto' }} alt="Close" />
                                 ) : (
-                                    <img src={arrowDown} style={{height: '1em', width: 'auto'}} alt="Expand" />
+                                    <img src={arrowDown} style={{ height: '1em', width: 'auto' }} alt="Expand" />
                                 )}
                             </span>
                             <br />

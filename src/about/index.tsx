@@ -5,7 +5,10 @@ import Title from "../components/title";
 function AboutPost() {
     return (
         <div>
-            Hi, I'm Tim! From the website name! I'm a full-stack software engineer based in Kansas City, MO. This site is both a portfolio of personal software projects and a place for me to dump anything I find interesting. I'm also looking for work, so if you know of any openings please <a href="mailto:timhaysonline@gmail.com">reach out</a>!
+            Hi, I'm Tim! From the website name! I'm a full-stack software engineer based in Kansas City, MO. This site is both a portfolio of personal software projects and a place for me to share anything I find interesting.
+            <br />
+            <br />
+            I'm also looking for work, so if you know of any openings please <a href="mailto:timhaysonline@gmail.com">reach out</a>!
             <br />
             <div style={{ display: "flex", flexDirection: "row", margin: "1rem", justifyContent: "center", alignItems: "center" }}>
                 <img src={`${process.env.PUBLIC_URL}/about/1.jpg`} style={{
@@ -34,12 +37,15 @@ function AboutPost() {
             Some other things I'm into:
             <h3>Formula 1</h3>
             🟧Go McLaren!🟧
+            <br />
+            <br />
+            I've been watching since about 2021 and have come to enjoy the sport more every year. This year in particular is exciting because of the new regulations - The teams are still figuring out what works and what doesn't under the new rules, so every race has potential for drama.
             <h3>Bouldering</h3>
             I'd recommend going to a bouldering gym to anyone who's capable! Unlike rock climbing, there is no harness/belay so the climbs are much shorter, which is great if heights make you uneasy. There's also the puzzle element of mapping out how you'll tackle a challenge before you start it, and chatting with other climbers as you work out the problem together.
             <h3>Board Games</h3>
             Especially <a href="https://boardgamegeek.com/boardgame/240980/blood-on-the-clocktower">Blood on the Clocktower</a>! It's a social deduction game with enough depth that I could probably yap about it for hours. Some other favorites of mine are <a href="https://boardgamegeek.com/boardgame/368061/zoo-vadis">Zoo Vadis</a>, <a href="https://boardgamegeek.com/boardgame/36218/dominion">Dominion</a>, <a href="https://boardgamegeek.com/boardgame/63888/innovation">Innovation</a>, and <a href="https://boardgamegeek.com/boardgame/329839/so-clover">So Clover</a>.
             <h3>Video games</h3>
-            I'll play just about any genre, though I usually stick to indie games. Some of my all-time favorites include <a href="https://store.steampowered.com/app/753640/Outer_Wilds/">Outer Wilds</a>, <a href="https://store.steampowered.com/app/646570/Slay_the_Spire/">Slay the Spire</a>, and <a href="https://store.steampowered.com/app/1147860/UFO_50/">UFO 50</a>.
+            I'll play just about any genre, though I usually stick to indie games. Some of my all-time favorites include <a href="https://store.steampowered.com/app/753640/Outer_Wilds/">Outer Wilds</a>, <a href="https://store.steampowered.com/app/646570/Slay_the_Spire/">Slay the Spire</a>, and <a href="https://store.steampowered.com/app/1147860/UFO_50/">UFO 50</a>. Send me suggestions if you have any!
         </div>
     )
 }

@@ -35,7 +35,8 @@ function App() {
         <Route path="/pirates" element={<Pirates />} />
         <Route path="/pirates/results" element={<Results />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/" element={<Blog />} />
+        <Route path="/portfolio" element={<Blog filter="portfolio" />} />
+        <Route path="/" element={<About />} />
       </Routes>
     </div>
   );

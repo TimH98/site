@@ -14,41 +14,46 @@ const POSTS: PostProps[] = [
         title: "Color Cue Reaction Trainer",
         date: "Apr 30, 2026",
         content: <ColorCuePost />,
-        devNotes: <ColorCueDevNotes />
+        devNotes: <ColorCueDevNotes />,
+        tags: ["portfolio"],
     },
     {
         title: "Dev Notes",
         date: "Apr 20, 2026",
         content: <DevNotesPost />,
-        devNotes: <DevNotesDevNotes />
+        devNotes: <DevNotesDevNotes />,
     },
     {
         title: "Lyric Clouds",
         date: "Mar 27, 2026",
         content: <LyricCloudPost />,
-        devNotes: <LyricCloudDevNotes />
+        devNotes: <LyricCloudDevNotes />,
+        tags: ["portfolio"],
     },
     {
         title: "Evo - Natural Selection simulator",
         date: "Feb 19, 2026",
         content: <EvoPost />,
-        devNotes: <EvoDevNotes />
+        devNotes: <EvoDevNotes />,
+        tags: ["portfolio"],
     },
     {
         title: "Schmoovst",
         date: "Jan 19, 2026",
         content: <SchmoovstPost />,
-        devNotes: <SchmoovstDevNotes />
+        devNotes: <SchmoovstDevNotes />,
+        tags: ["portfolio"],
     },
     {
         title: "The Lazy Pirate Quiz",
         date: "Dec 8, 2025",
         content: <PiratePost />,
-        devNotes: <PirateDevNotes />
+        devNotes: <PirateDevNotes />,
+        tags: ["portfolio"],
     }
 ]
 
-export default function Blog() {
+export default function Blog({ filter }: { filter?: string }) {
 
     return (
         <div style={{
@@ -67,7 +72,7 @@ export default function Blog() {
                 flexDirection: 'column',
                 flex: 1,
             }}>
-                {POSTS.map((post) => (
+                {POSTS.filter((post) => !filter || post.tags?.includes(filter)).map((post) => (
                     <Post
                         key={post.title}
                         {...post}
