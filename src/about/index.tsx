@@ -57,7 +57,7 @@ export default function About() {
             flexDirection: 'column',
             alignItems: 'center',
         }}>
-            <Title />
+            <Title active="about" />
             <div style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -67,7 +67,7 @@ export default function About() {
                 alignSelf: 'center',
                 flexDirection: 'column',
             }}>
-                <Post title="About" content={AboutPost()} autoExpand />
+                <Post title="About" date="Last updated May 12, 2026" content={AboutPost()} autoExpand />
             </div>
             <Contact />
         </div>

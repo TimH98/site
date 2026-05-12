@@ -34,8 +34,8 @@ function App() {
         <Route path="/schmoovst/game" element={<ShooterGame />} />
         <Route path="/pirates" element={<Pirates />} />
         <Route path="/pirates/results" element={<Results />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/portfolio" element={<Blog filter="portfolio" />} />
+        <Route path="/blog" element={<Blog key="blog" />} />
+        <Route path="/portfolio" element={<Blog key="portfolio" filter="portfolio" />} />
         <Route path="/" element={<About />} />
       </Routes>
     </div>

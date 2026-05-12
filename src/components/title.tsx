@@ -14,7 +14,7 @@ const STICKY_NOTE_STYLE: CSSProperties = {
     cursor: 'pointer',
 }
 
-export default function Title() {
+export default function Title({ active }: { active?: string }) {
     const navigate = useNavigate();
     return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -33,10 +33,18 @@ export default function Title() {
                 width: "100%",
                 justifyContent: "center",
             }}>
+                <div onClick={() => navigate('/about')} style={{
+                    ...STICKY_NOTE_STYLE,
+                    background: "#d55",
+                    transform: active === 'about' ? "rotate(-2deg) translate(0, 10%)" : "rotate(-2deg)",
+                }} >
+                    <div style={{ flex: 1 }} />
+                    About
+                </div>
                 <div onClick={() => navigate('/portfolio')} style={{
                     ...STICKY_NOTE_STYLE,
                     background: "#ff8",
-                    transform: "rotate(-1deg)",
+                    transform: active === 'portfolio' ? "rotate(-1deg) translate(0, 10%)" : "rotate(-1deg)",
                 }} >
                     <div style={{ flex: 1 }} />
                     Portfolio
@@ -44,18 +52,10 @@ export default function Title() {
                 <div onClick={() => navigate('/blog')} style={{
                     ...STICKY_NOTE_STYLE,
                     background: "#68d",
-                    transform: "rotate(2deg)",
+                    transform: active === 'blog' ? "rotate(2deg) translate(0, 10%)" : "rotate(2deg)",
                 }} >
                     <div style={{ flex: 1 }} />
-                    Blog
-                </div>
-                <div onClick={() => navigate('/about')} style={{
-                    ...STICKY_NOTE_STYLE,
-                    background: "#d55",
-                    transform: "rotate(-2deg)",
-                }} >
-                    <div style={{ flex: 1 }} />
-                    About
+                    All Posts
                 </div>
             </div>
         </div>

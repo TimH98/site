@@ -62,7 +62,7 @@ export default function Blog({ filter }: { filter?: string }) {
             alignItems: 'center',
             minHeight: '100vh',
         }}>
-            <Title />
+            <Title active={filter ?? "blog"} />
             <div style={{
                 display: 'flex',
                 alignItems: 'center',
