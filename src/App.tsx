@@ -9,9 +9,8 @@ import ShooterGame from './schmoovst/game';
 import Evo from './evo';
 import EvoAbout from './evo/about';
 import LyricCloud from './lyric-cloud/index';
-import ColorCueSetup from './color-cue/index';
-import ColorCue from './color-cue/game';
 import About from './about';
+import ColorCue from './color-cue';
 
 function App() {
   return (
@@ -25,8 +24,7 @@ function App() {
     }}>
       <Routes>
         <Route path="/about" element={<About />} />
-        <Route path="/color-cue" element={<ColorCueSetup />} />
-        <Route path="/color-cue/start" element={<ColorCue />} />
+        <Route path="/color-cue" element={<ColorCue />} />
         <Route path="/lyric-cloud" element={<LyricCloud />} />
         <Route path="/evo" element={<Evo />} />
         <Route path="/evo/about" element={<EvoAbout />} />

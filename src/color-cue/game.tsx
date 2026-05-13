@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react"
-import { useLocation } from "react-router-dom"
 import { COLORS } from "./colors"
+import { ColorCueSettings } from "./settings"
 
 
-export default function ColorCue() {
+export default function ColorCueGame({ settings }: { settings: ColorCueSettings }) {
     let {
         displayColors,
         displayColorNames,
@@ -13,16 +13,7 @@ export default function ColorCue() {
         minTimeInterval,
         maxTimeInterval,
         colors,
-    } = useLocation().state as {
-        displayColors: boolean,
-        displayColorNames: boolean,
-        colorMatch: boolean,
-        shuffle: boolean,
-        displayArrows: number,
-        minTimeInterval: number,
-        maxTimeInterval: number,
-        colors: string[]
-    }
+    } = settings
     const currentRef = useRef({ idx: -1 })
     const [current, setCurrent] = useState("")
     const [currentText, setCurrentText] = useState("")
@@ -31,6 +22,14 @@ export default function ColorCue() {
     const arrows: string = displayArrows === 1 ? "←→" : displayArrows === 2 ? "↑↓" : "↑↓←→"
 
     useEffect(() => {
+        let wakeLock: any;
+        async function requestWakeLock() {
+            // Typescript navigator doesn't recognize wakeLock yet so we have to do this type jank
+            const nav: any = navigator;
+            if ('wakeLock' in nav)
+                wakeLock = await nav.wakeLock.request('screen');
+        }
+        requestWakeLock()
         const changeColor = (currentIdx: number) => {
             var idx;
             if (shuffle) {
@@ -64,7 +63,10 @@ export default function ColorCue() {
             timeoutRef.id = setTimeout(loop, timeInterval * 1000)
         }
         timeoutRef.id = setTimeout(loop, 0)
-        return () => clearTimeout(timeoutRef.id)
+        return () => {
+            if (wakeLock) wakeLock.release();
+            clearTimeout(timeoutRef.id);
+        }
     }, [
         arrows,
         colorMatch,
