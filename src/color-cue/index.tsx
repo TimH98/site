@@ -41,7 +41,13 @@ export default function ColorCue() {
     useEffect(() => () => clearInterval(intervalRef.current), []);
 
     return (
-        <div onMouseDown={mouseDown} onMouseUp={mouseUp} onMouseLeave={mouseUp}>
+        <div
+            onMouseDown={mouseDown}
+            onMouseUp={mouseUp}
+            onMouseLeave={mouseUp}
+            onTouchStart={mouseDown}
+            onTouchEnd={mouseUp}
+        >
             {running ? (
                 <ColorCueGame settings={settings} />
             ) : (
