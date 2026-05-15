@@ -5,7 +5,6 @@ import { COLORS } from "./colors"
 import CircleIcon from '@mui/icons-material/Circle';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { useNavigate } from "react-router-dom";
 import { ColorCueSettings } from "./settings";
 
 function SwitchSetting({ label, value, onChange }: { label: string, value: boolean, onChange: (event: React.ChangeEvent<HTMLInputElement>) => void }) {
@@ -64,6 +63,8 @@ export default function ColorCueSetup(
         shuffle,
         displayArrows,
         randomTimeInterval,
+        minTimeInterval,
+        maxTimeInterval,
         colors,
     } = liveSettings
 
@@ -175,12 +176,12 @@ export default function ColorCueSetup(
                 <Divider />
                 {randomTimeInterval || <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <p style={{ flexGrow: 1, margin: "0.5rem" }}>Time Interval (seconds)</p>
-                    <TextField type="number" defaultValue={3} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleTimeIntervalChange} />
+                    <TextField type="number" defaultValue={minTimeInterval} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleTimeIntervalChange} />
                 </div>}
                 {randomTimeInterval && <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                     <p style={{ flexGrow: 1, margin: "0.5rem" }}>Time Interval (seconds)</p>
-                    <TextField type="number" label="Min" defaultValue={3} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleMinTimeIntervalChange} />
-                    <TextField type="number" label="Max" defaultValue={3} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleMaxTimeIntervalChange} />
+                    <TextField type="number" label="Min" defaultValue={minTimeInterval} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleMinTimeIntervalChange} />
+                    <TextField type="number" label="Max" defaultValue={maxTimeInterval} style={{ margin: "0.5rem", minWidth: "5rem", flex: 0 }} size="small" onChange={handleMaxTimeIntervalChange} />
                 </div>}
             </Paper>
             <Paper elevation={1} style={{ width: "100%", maxWidth: "400px", display: "flex", flexDirection: "column", padding: "0.5rem 0" }}>
