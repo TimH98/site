@@ -7,9 +7,16 @@ import EvoPost, { EvoDevNotes } from "./posts/evo";
 import LyricCloudPost, { LyricCloudDevNotes } from "./posts/lyric-cloud";
 import DevNotesPost, { DevNotesDevNotes } from "./posts/dev-notes";
 import ColorCuePost, { ColorCueDevNotes } from "./posts/color-cue";
+import ToymakerPost from "./posts/toymaker"
 
 
 const POSTS: PostProps[] = [
+    {
+        title: "Toymaker: AI Storyteller & Player for Blood on the Clocktower",
+        date: "Jun 1, 2026",
+        content: <ToymakerPost />,
+        tags: ["portfolio"],
+    },
     {
         title: "Color Cue Reaction Trainer",
         date: "Apr 30, 2026",
