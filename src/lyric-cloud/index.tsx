@@ -295,8 +295,6 @@ export default function LyricCloud() {
                 justifyContent: 'center',
                 display: 'flex',
                 flexDirection: 'column',
-                fontSize: '24pt',
-                fontWeight: 'bold',
                 maxWidth: '600px',
                 width: '90%',
             }}>
@@ -312,6 +310,8 @@ export default function LyricCloud() {
                     width: '90%',
                     maxWidth: '800px',
                     alignItems: 'center',
+                    fontSize: '24pt',
+                    fontWeight: 'bold',
                 }}>
                     Your Score: {correct.filter(c => c).length}
                     <div style={{
