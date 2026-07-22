@@ -24,7 +24,7 @@ export default function Build() {
     const onShare = () => {
         const raw = clues.join(",") + "," + words.join(",")
         const enc = btoa(raw)
-        const url = window.location.href.replace(/\/$/, "") + "/play?code=" + enc
+        const url = window.location.href.replace(/build\/?$/, "") + "play?code=" + enc
         navigator.clipboard.writeText(url);
         alert("Copied share code to clipboard")
     }
