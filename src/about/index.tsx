@@ -7,9 +7,6 @@ function AboutPost() {
         <div>
             Hi, I'm Tim! From the website name! I'm a full-stack software engineer based in Kansas City, MO. This site is both a portfolio of personal software projects and a place for me to share anything I find interesting.
             <br />
-            <br />
-            I'm also looking for work, so if you know of any openings please <a href="mailto:timhaysonline@gmail.com">reach out</a>!
-            <br />
             <div style={{ display: "flex", flexDirection: "row", margin: "1rem", justifyContent: "center", alignItems: "center" }}>
                 <img src={`${process.env.PUBLIC_URL}/about/1.jpg`} style={{
                     width: "25%",
@@ -67,7 +64,7 @@ export default function About() {
                 alignSelf: 'center',
                 flexDirection: 'column',
             }}>
-                <Post title="About" date="Last updated May 12, 2026" content={AboutPost()} autoExpand />
+                <Post title="About" date="Last updated July 22, 2026" content={AboutPost()} autoExpand />
             </div>
             <Contact />
         </div>

@@ -11,6 +11,9 @@ import EvoAbout from './evo/about';
 import LyricCloud from './lyric-cloud/index';
 import About from './about';
 import ColorCue from './color-cue';
+import Build from './four-words/build';
+import Solve from './four-words/solve';
+import FourWordsAbout from './four-words/about';
 
 function App() {
   return (
@@ -24,6 +27,9 @@ function App() {
     }}>
       <Routes>
         <Route path="/about" element={<About />} />
+        <Route path="/four-words" element={<FourWordsAbout />} />
+        <Route path="/four-words/build" element={<Build />} />
+        <Route path="/four-words/play" element={<Solve />} />
         <Route path="/color-cue" element={<ColorCue />} />
         <Route path="/lyric-cloud" element={<LyricCloud />} />
         <Route path="/evo" element={<Evo />} />
