@@ -4,6 +4,8 @@ export default function Card({
     words,
     orientation,
     locked,
+    sideboard,
+    idx,
     onClick,
     onDragStart,
     onDrop
@@ -11,8 +13,10 @@ export default function Card({
     words: string[],
     orientation: number,
     locked?: boolean,
+    sideboard?: boolean,
+    idx?: number,
     onClick?: any,
-    onDragStart?: any,
+    onDragStart?: (touchX?: number, touchY?: number) => void,
     onDrop?: any
 }) {
     const cardSize = window.innerHeight > 1.5 * window.innerWidth ? '30vw' : '20vh';
@@ -33,6 +37,11 @@ export default function Card({
         pointerEvents: 'none' as const,
         transformOrigin: '50% 240%',
     }
+    const dropTargetProps = sideboard !== undefined && idx !== undefined ? {
+        'data-four-words-drop': true,
+        'data-sideboard': sideboard,
+        'data-idx': idx,
+    } : {}
     if (!words.length) {
         return (
             <div style={{
@@ -42,7 +51,7 @@ export default function Card({
                 height: cardSize,
                 aspectRatio: 1,
                 position: 'relative',
-            }} onDrop={onDrop} onDragOver={(e) => e.preventDefault()} draggable="true">
+            }} {...dropTargetProps} onDrop={onDrop} onDragOver={(e) => e.preventDefault()} draggable="true">
             </div>
         )
     }
@@ -51,6 +60,7 @@ export default function Card({
     }
     return (
         <div
+            {...dropTargetProps}
             style={{
                 backgroundColor: locked ? '#bfb' : 'white',
                 borderRadius: '1vh',
@@ -59,11 +69,17 @@ export default function Card({
                 aspectRatio: 1,
                 position: 'relative',
                 cursor: locked ? 'default' : 'grab',
+                touchAction: locked ? undefined : 'none',
             }}
             onClick={!locked ? onClick : undefined}
-            onDragStart={!locked ? onDragStart : undefined}
+            onDragStart={!locked ? () => onDragStart?.() : undefined}
             onDrop={!locked ? onDrop : undefined}
             onDragOver={(e) => e.preventDefault()}
+            onTouchStart={!locked ? (e) => {
+                e.preventDefault();
+                const touch = e.touches[0];
+                onDragStart?.(touch?.clientX, touch?.clientY);
+            } : undefined}
             draggable={locked ? "false" : "true"}
         >
             <div style={{

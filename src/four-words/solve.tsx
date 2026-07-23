@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import CardComponent from "./card";
 
@@ -52,6 +52,7 @@ export default function Solve() {
     const [placedCards, setPlacedCards] = useState<(Card | null)[]>([null, null, null, null])
     const [heldCard, setHeldCard] = useState<Card | null>(null)
     const [heldCardLocation, setHeldCardLocation] = useState<CardLocation | null>(null)
+    const [touchPosition, setTouchPosition] = useState<{ x: number, y: number } | null>(null)
 
     const rotateCard = (sideboard: boolean, idx: number) => {
         var cardList = [...placedCards]
@@ -70,8 +71,11 @@ export default function Solve() {
         update(cardList)
     }
 
-    const pickupCard = (sideboard: boolean, idx: number) => {
+    const pickupCard = (sideboard: boolean, idx: number, touchX?: number, touchY?: number) => {
         setHeldCardLocation({sideboard, idx})
+        if (touchX !== undefined && touchY !== undefined) {
+            setTouchPosition({ x: touchX, y: touchY })
+        }
         if (sideboard) {
             const card = sideboardCards[idx]
             setHeldCard(card)
@@ -106,9 +110,48 @@ export default function Solve() {
         }
         setHeldCard(null)
         setHeldCardLocation(null)
+        setTouchPosition(null)
         setSideboardCards(newSideboardCards)
         setPlacedCards(newPlacedCards)
     }
+
+    useEffect(() => {
+        if (heldCardLocation === null) return;
+        const onTouchMove = (e: TouchEvent) => {
+            const touch = e.touches[0];
+            if (!touch) return;
+            setTouchPosition({ x: touch.clientX, y: touch.clientY });
+        };
+        const onTouchEnd = (e: TouchEvent) => {
+            const touch = e.changedTouches[0];
+            if (!touch) return;
+            const el = document.elementFromPoint(touch.clientX, touch.clientY);
+            const cardEl = el?.closest('[data-four-words-drop]') as HTMLElement | null;
+            if (!cardEl) {
+                setHeldCard(null);
+                setHeldCardLocation(null);
+                setTouchPosition(null);
+                return;
+            }
+            const sideboard = cardEl.dataset.sideboard === 'true';
+            const idx = parseInt(cardEl.dataset.idx || '0', 10);
+            if (heldCardLocation.sideboard === sideboard && heldCardLocation.idx === idx) {
+                rotateCard(sideboard, idx);
+                setHeldCard(null);
+                setHeldCardLocation(null);
+                setTouchPosition(null);
+            } else {
+                dropCard(sideboard, idx);
+            }
+        };
+        document.addEventListener('touchmove', onTouchMove);
+        document.addEventListener('touchend', onTouchEnd);
+        return () => {
+            document.removeEventListener('touchmove', onTouchMove);
+            document.removeEventListener('touchend', onTouchEnd);
+        };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- dropCard/rotateCard close over current state via heldCardLocation dep
+    }, [heldCardLocation, heldCard, sideboardCards, placedCards]);
 
     const onSubmit = () => {
         const answer: Card[] = [
@@ -163,8 +206,10 @@ export default function Solve() {
                 words={cardList[idx]?.words ?? []}
                 orientation={cardList[idx]?.orientation ?? 0}
                 locked={cardList[idx]?.locked ?? false}
+                sideboard={sideboard}
+                idx={idx}
                 onClick={() => rotateCard(sideboard, idx)}
-                onDragStart={() => pickupCard(sideboard, idx)}
+                onDragStart={(touchX, touchY) => pickupCard(sideboard, idx, touchX, touchY)}
                 onDrop={() => dropCard(sideboard, idx)}
             />
         )
@@ -283,6 +328,22 @@ export default function Solve() {
                 background: "white",
                 borderRadius: "8pt"
             }}>Submit</button>
+            {heldCard && touchPosition && (
+                <div style={{
+                    position: 'fixed',
+                    left: touchPosition.x,
+                    top: touchPosition.y,
+                    transform: 'translate(-50%, -50%)',
+                    opacity: 0.5,
+                    pointerEvents: 'none',
+                    zIndex: 1000,
+                }}>
+                    <CardComponent
+                        words={heldCard.words}
+                        orientation={heldCard.orientation}
+                    />
+                </div>
+            )}
         </div>
     )
 }
