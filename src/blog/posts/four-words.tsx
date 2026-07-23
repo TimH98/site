@@ -26,7 +26,6 @@ export default function FourWordsPost() {
                 <li>Click and drag to move a card</li>
                 <li>Click a card to rotate it</li>    
             </ul>
-            <i>(Note: The game is not mobile-friendly yet. Coming soon!)</i>
         </div>
     )
 }
