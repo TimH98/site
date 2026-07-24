@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import CardComponent from "./card";
+import Title from "../components/title";
 
 type Card = {
     orientation: number,
@@ -22,6 +23,7 @@ const shuffleCards = (cards: Card[]) => {
 }
 
 export default function Solve() {
+    const navigate = useNavigate();
     const [params, _] = useSearchParams()
     const enc = params.get("code") || ""
     const dec = atob(enc).split(",")
@@ -53,6 +55,10 @@ export default function Solve() {
     const [heldCard, setHeldCard] = useState<Card | null>(null)
     const [heldCardLocation, setHeldCardLocation] = useState<CardLocation | null>(null)
     const [touchPosition, setTouchPosition] = useState<{ x: number, y: number } | null>(null)
+    const [tries, setTries] = useState(0)
+    const [showResults, setShowResults] = useState(false)
+    const [finished, setFinished] = useState(false)
+    const [gaveUp, setGaveUp] = useState(false)
 
     const rotateCard = (sideboard: boolean, idx: number) => {
         var cardList = [...placedCards]
@@ -194,6 +200,46 @@ export default function Solve() {
             }
         }
         setPlacedCards(newPlacedCards);
+        setTries(tries + 1);
+        if (newPlacedCards.every(c => c?.locked)) {
+            setShowResults(true);
+            setFinished(true);
+        }
+    }
+
+    const onGiveUp = () => {
+        const answer: Card[] = [
+            {
+                orientation: 0,
+                words: dec.slice(4, 8),
+                locked: true
+            },
+            {
+                orientation: 0,
+                words: dec.slice(8, 12),
+                locked: true
+            },
+            {
+                orientation: 0,
+                words: dec.slice(12, 16),
+                locked: true
+            },
+            {
+                orientation: 0,
+                words: dec.slice(16, 20),
+                locked: true
+            },
+        ]
+        setPlacedCards(answer);
+        setSideboardCards([
+            {
+                orientation: 0,
+                words: dec.slice(20)
+            },
+            null, null, null, null, null
+        ]);
+        setGaveUp(true);
+        setFinished(true);
     }
 
     const rotatableCard = (sideboard: boolean, idx: number) => {
@@ -219,6 +265,7 @@ export default function Solve() {
         return (
             <table style={{
                 flex: 20,
+                paddingTop: '2vh',
             }}>
                 <tbody>
                     <tr>
@@ -280,7 +327,7 @@ export default function Solve() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'column'
+            flexDirection: 'column',
         }}>
             {sideboard()}
 
@@ -319,15 +366,38 @@ export default function Solve() {
                     </tr>
                 </tbody>
             </table>
-            <button onClick={onSubmit} style={{
-                fontSize: titleFontSize,
-                margin: '0.5vh',
-                alignSelf: 'center',
-                cursor: 'pointer',
-                flex: 1,
-                background: "white",
-                borderRadius: "8pt"
-            }}>Submit</button>
+            <div style={{display: 'flex', flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                {!finished && (
+                    <button onClick={onSubmit} style={{
+                        fontSize: titleFontSize,
+                        margin: '0.5vh',
+                        alignSelf: 'center',
+                        cursor: 'pointer',
+                        background: "white",
+                        borderRadius: "8pt"
+                    }}>Submit</button>
+                )}
+                {tries > 1 && !finished && (
+                    <button onClick={onGiveUp} style={{
+                        fontSize: titleFontSize,
+                        margin: '0.5vh',
+                        alignSelf: 'center',
+                        cursor: 'pointer',
+                        background: "white",
+                        borderRadius: "8pt"
+                    }}>Give Up</button>
+                )}
+                {finished && (
+                    <button onClick={() => setShowResults(true)} style={{
+                        fontSize: titleFontSize,
+                        margin: '0.5vh',
+                        alignSelf: 'center',
+                        cursor: 'pointer',
+                        background: "white",
+                        borderRadius: "8pt"
+                    }}>Results</button>
+                )}
+            </div>
             {heldCard && touchPosition && (
                 <div style={{
                     position: 'fixed',
@@ -342,6 +412,66 @@ export default function Solve() {
                         words={heldCard.words}
                         orientation={heldCard.orientation}
                     />
+                </div>
+            )}
+            {showResults && (
+                <div style={{
+                    background: "#0005",
+                    width: "100vw",
+                    height: "100vh",
+                    position: "absolute"
+                }}>
+                    <div style={{
+                        width: "300px",
+                        background: "white",
+                        border: "12px solid #9c9",
+                        borderRadius: "2vh",
+                        padding: "4% 4% 4% 4%",
+                        textAlign: "center",
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translateX(-50%) translateY(-50%)"
+                    }}>
+                        {gaveUp ? (
+                            <>
+                                <h1 style={{lineHeight: "0%"}}>Thanks for Playing!</h1>
+                                <p>You gave up after {tries} {tries == 1 ? "try" : "tries"}.</p>
+                            </>
+                        ) : (
+                            <>
+                                <h1 style={{lineHeight: "0%"}}>Congratulations!</h1>
+                                <p>You guessed correctly in {tries} {tries == 1 ? "try" : "tries"}!</p>
+                            </>
+                        )}
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "2%",
+                            width: "100%"
+                        }}>
+                            <button style={{
+                                background: "#585",
+                                color: "white",
+                                borderRadius: "2vh",
+                                border: "none",
+                                lineHeight: "200%",
+                                fontSize: "large",
+                                padding: "0 4%",
+                            }} onClick={() => navigate('/four-words/build')}>Make a new puzzle</button>
+                            <button style={{
+                                background: "#585",
+                                color: "white",
+                                borderRadius: "2vh",
+                                border: "none",
+                                lineHeight: "200%",
+                                fontSize: "large",
+                                padding: "0 4%",
+                            }} onClick={() => setShowResults(false)}>Close</button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

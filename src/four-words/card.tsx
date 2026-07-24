@@ -45,7 +45,7 @@ export default function Card({
     if (!words.length) {
         return (
             <div style={{
-                backgroundColor: '#242',
+                backgroundColor: '#0004',
                 borderRadius: '1vh',
                 width: cardSize,
                 height: cardSize,
