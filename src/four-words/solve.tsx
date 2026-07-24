@@ -142,7 +142,6 @@ export default function Solve() {
             const sideboard = cardEl.dataset.sideboard === 'true';
             const idx = parseInt(cardEl.dataset.idx || '0', 10);
             if (heldCardLocation.sideboard === sideboard && heldCardLocation.idx === idx) {
-                rotateCard(sideboard, idx);
                 setHeldCard(null);
                 setHeldCardLocation(null);
                 setTouchPosition(null);
