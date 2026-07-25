@@ -55,6 +55,8 @@ export default function Solve() {
     const [heldCard, setHeldCard] = useState<Card | null>(null)
     const [heldCardLocation, setHeldCardLocation] = useState<CardLocation | null>(null)
     const [touchPosition, setTouchPosition] = useState<{ x: number, y: number } | null>(null)
+    const [dragStartPosition, setDragStartPosition] = useState<{ x: number, y: number } | null>(null)
+    const [isDragging, setIsDragging] = useState(false)
     const [tries, setTries] = useState(0)
     const [showResults, setShowResults] = useState(false)
     const [finished, setFinished] = useState(false)
@@ -81,7 +83,9 @@ export default function Solve() {
         setHeldCardLocation({sideboard, idx})
         if (touchX !== undefined && touchY !== undefined) {
             setTouchPosition({ x: touchX, y: touchY })
+            setDragStartPosition({ x: touchX, y: touchY })
         }
+        setIsDragging(false)
         if (sideboard) {
             const card = sideboardCards[idx]
             setHeldCard(card)
@@ -117,6 +121,8 @@ export default function Solve() {
         setHeldCard(null)
         setHeldCardLocation(null)
         setTouchPosition(null)
+        setDragStartPosition(null)
+        setIsDragging(false)
         setSideboardCards(newSideboardCards)
         setPlacedCards(newPlacedCards)
     }
@@ -127,6 +133,13 @@ export default function Solve() {
             const touch = e.touches[0];
             if (!touch) return;
             setTouchPosition({ x: touch.clientX, y: touch.clientY });
+            if (!isDragging && dragStartPosition) {
+                const dx = touch.clientX - dragStartPosition.x;
+                const dy = touch.clientY - dragStartPosition.y;
+                if (Math.sqrt(dx * dx + dy * dy) > 10) {
+                    setIsDragging(true);
+                }
+            }
         };
         const onTouchEnd = (e: TouchEvent) => {
             const touch = e.changedTouches[0];
@@ -137,6 +150,8 @@ export default function Solve() {
                 setHeldCard(null);
                 setHeldCardLocation(null);
                 setTouchPosition(null);
+                setDragStartPosition(null);
+                setIsDragging(false);
                 return;
             }
             const sideboard = cardEl.dataset.sideboard === 'true';
@@ -145,6 +160,8 @@ export default function Solve() {
                 setHeldCard(null);
                 setHeldCardLocation(null);
                 setTouchPosition(null);
+                setDragStartPosition(null);
+                setIsDragging(false);
             } else {
                 dropCard(sideboard, idx);
             }
@@ -397,7 +414,7 @@ export default function Solve() {
                     }}>Results</button>
                 )}
             </div>
-            {heldCard && touchPosition && (
+            {heldCard && touchPosition && isDragging && (
                 <div style={{
                     position: 'fixed',
                     left: touchPosition.x,
@@ -418,6 +435,7 @@ export default function Solve() {
                     background: "#0005",
                     width: "100vw",
                     height: "100vh",
+                    top: 0,
                     position: "absolute"
                 }}>
                     <div style={{
