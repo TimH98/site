@@ -2,12 +2,13 @@ import { ChangeEvent, useState } from "react";
 import Card from "./card";
 import all_words from "./words";
 import Title from "../components/title";
+import { shuffle } from "../util";
 
 
 function chooseWords() {
     // Randomly choose 20 words: 16 for the shown cards + 4 for the extra 5th card
     const words = all_words().split("\n").filter(w => w.length);
-    return words.sort(() => Math.random() - 0.5).slice(0, 20);
+    return shuffle(words).slice(0, 20);
 }
 
 

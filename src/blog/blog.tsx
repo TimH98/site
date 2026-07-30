@@ -8,9 +8,16 @@ import LyricCloudPost, { LyricCloudDevNotes } from "./posts/lyric-cloud";
 import DevNotesPost, { DevNotesDevNotes } from "./posts/dev-notes";
 import ColorCuePost, { ColorCueDevNotes } from "./posts/color-cue";
 import ToymakerPost from "./posts/toymaker"
+import FourWordsPost from "./posts/four-words";
 
 
 const POSTS: PostProps[] = [
+    {
+        title: "FourWords",
+        date: "Jul 30, 2026",
+        content: <FourWordsPost />,
+        tags: ["portfolio"],
+    },
     {
         title: "Toymaker: AI Storyteller & Player for Blood on the Clocktower",
         date: "Jun 1, 2026",

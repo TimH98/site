@@ -6,12 +6,13 @@ import Post from "../blog/post";
 import clockImage from './image/clock.png';
 import grid from '../image/grid.jpg';
 import './font.css';
+import { shuffle } from "../util";
 
 const NUM_SONGS = 100;
 
 function chooseSongs(): string[] {
     // Random list of 100 songs from our dataset
-    return Object.keys(songData).sort(() => Math.random() - 0.5).slice(0, 100);
+    return shuffle(Object.keys(songData)).slice(0, 100);
 }
 
 function Timer({ started, timeLimit, onTimeout }: { started: boolean, timeLimit: number, onTimeout: () => void }) {
