@@ -10,6 +10,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <script data-goatcounter="https://timhays.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
     <HashRouter>
       <App />
     </HashRouter>
